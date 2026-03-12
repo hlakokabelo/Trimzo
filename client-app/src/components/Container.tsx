@@ -1,7 +1,7 @@
 import * as React from "react";
-import FormContainer from "../FormContainer/FormContainer";
-import UrlDisplay from "../UrlDisplay";
-import { getAllUrl } from "../../util/dbServices.js";
+import FormContainer from "./FormContainer";
+import UrlDisplay from "./UrlDisplay";
+import { getAllUrl } from "../util/dbServices";
 interface IContainerProps {}
 
 const Container: React.FunctionComponent<IContainerProps> = () => {

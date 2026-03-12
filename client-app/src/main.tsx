@@ -1,21 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Loading from './components/loading.tsx'
-import { getAppName } from './util/utils.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Loading from "./components/loading.tsx";
+import { getAppName } from "./util/utils.tsx";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    
-      <body className="bg-slate-400" />
-      <title>{getAppName()}</title>
-   <BrowserRouter>
-   <Routes>
-    <Route path='/' element={<App/>}/>
-    <Route path='/:id' element={<Loading/>}/>
-   </Routes>
-   </BrowserRouter>
+    <body className="bg-slate-400" />
+    <title>{getAppName()}</title>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/:id" element={<Loading />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>,
-)
+);

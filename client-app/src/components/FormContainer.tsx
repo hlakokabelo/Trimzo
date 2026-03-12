@@ -10,7 +10,7 @@ import {
   FiCheckCircle,
 } from "react-icons/fi";
 import { BsQrCode } from "react-icons/bs";
-import { createShortUrl } from "../../util/dbServices.js";
+import { createShortUrl } from "../util/dbServices";
 
 interface IFormContainerProps {}
 
@@ -47,7 +47,6 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = () => {
   };
 
   return (
-
     <div className="flex justify-center mr-1 ml-1 mt-[5rem] items-center min-w-[100px]">
       <div className=" bg-slate-300 rounded-2xl shadow-lg shadow-slate-600 hover:shadow-xl overflow-hidden ">
         {/* Tabs */}
