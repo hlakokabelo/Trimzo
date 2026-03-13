@@ -3,10 +3,9 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { getAppName } from "./util/getAppName.tsx";
+import { getAppName } from "./util/getAppName.ts";
 import RedirectPage from "./components/RedirectPage.tsx";
 import LinkNotFound from "./components/LinkNotFound.tsx";
-import QRGenerator from "./pages/QRGenerator.tsx";
 import SignInPage from "./pages/SignInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
@@ -22,7 +21,7 @@ createRoot(document.getElementById("root")!).render(
         {/* With header */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<App />} />
-          <Route path="/user-profile" element={<ProfilePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
 
         {/* Auth pages */}

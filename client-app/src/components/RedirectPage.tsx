@@ -1,13 +1,11 @@
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUrl } from "../util/dbServices";
-import LinkNotFound from "./LinkNotFound";
+import { getUrl } from "../services/dbServices.ts";
 
 interface IRedirectPageProps {}
 
 const RedirectPage: React.FunctionComponent<IRedirectPageProps> = () => {
   const { shortUrl } = useParams();
-  const [urlData, setUrlData] = React.useState<string>("");
   const navigate = useNavigate();
   React.useEffect(() => {
     const run = async () => {
@@ -22,15 +20,14 @@ const RedirectPage: React.FunctionComponent<IRedirectPageProps> = () => {
     };
 
     run();
-  }, []);
+  }, []); 
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-      {/* Spinner */}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">
+    
       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
 
-      {/* Text */}
-      <p className="mt-6 text-gray-600 text-sm">
+      <p className="mt-6 text-black text-lg">
         Redirecting you to your destination...
       </p>
     </div>

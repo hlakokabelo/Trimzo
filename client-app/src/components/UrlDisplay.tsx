@@ -1,53 +1,68 @@
 import * as React from "react";
-import { MdDelete } from "react-icons/md";
-import { MdModeEdit } from "react-icons/md";
+import { MdDelete, MdModeEdit } from "react-icons/md";
 import CopyButton from "./CopyButton";
+
 interface IUrlDisplayProps {
   fullUrl: string;
   clicks: number;
   shortId: string;
+  canEdit?: boolean;
 }
 
 const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({
   fullUrl,
   clicks,
   shortId,
+  canEdit = true,
 }) => {
   const icon = `https://www.google.com/s2/favicons?domain=${fullUrl}&sz=32`;
+  const shortLink = window.location.origin + "/" + shortId;
 
   return (
-    <div className="bg-slate-300  grid w-full grid-cols-6 gap-0 items-center border rounded-lg shadow-md">
-      <div className="flex justify-center">
-        <img src={icon} alt="image" />
-      </div>{" "}
-      <div className="text-justify col-span-3 m-0">
-        <a className="cursor-pointer" href={window.location.href + shortId}>
-          {window.location.href}
-          {shortId}
-        </a>
-        <p className="text-ellipsis text-nowrap overflow-hidden text-pink-700">
-          {fullUrl}
-        </p>
-      </div>
-      <div className="flex gap-4 ml-9">
-        <p
-          className="cursor-pointer pt-3"
-          onClick={() => {
-            alert("del");
-          }}
-        >
-          <MdDelete />
-        </p>
-        <p
-          className="cursor-pointer justify-center pt-3 hidden sm:block"
-          onClick={() => {}}
-        >
-          <MdModeEdit />
-        </p>
-        <div className="flex justify-center">
-          <CopyButton textToCopy={window.location.href + shortId} />
+    <div className="bg-slate-300 w-full border rounded-lg shadow-md p-3 flex flex-row sm:flex-row sm:items-center sm:justify-between gap-3">
+      
+      {/* left section */}
+      <div className="flex items-center gap-3 flex-1 w-1 sm:min-w-0">
+        <img src={icon} alt="favicon" className="w-6 h-6" />
+
+        <div className="min-w-0">
+          <a
+            className="cursor-pointer text-blue-700 break-all"
+            href={shortLink}
+          >
+            {shortLink}
+          </a>
+
+          <p className="truncate text-pink-700 text-sm">
+            {fullUrl}
+          </p>
         </div>
-        <div className="text-center pl-6 text-slate-800">
+      </div>
+
+      {/* right section */}
+      <div className="flex items-center gap-4 justify-between sm:justify-end">
+
+        {canEdit && (
+          <button
+            className="cursor-pointer hover:text-red-600"
+            onClick={() => alert("delete")}
+          >
+            <MdDelete size={20} />
+          </button>
+        )}
+
+        {canEdit && (
+          <button
+            className="cursor-pointer hover:text-blue-600 hidden sm:block"
+            onClick={() => {}}
+          >
+            <MdModeEdit size={20} />
+          </button>
+        )}
+
+        <CopyButton textToCopy={shortLink} />
+
+        <div className="text-center text-slate-800 text-sm hidden sm:block">
           clicks <br /> {clicks}
         </div>
       </div>

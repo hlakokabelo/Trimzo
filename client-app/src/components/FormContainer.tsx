@@ -9,13 +9,13 @@ import {
   FiAlertCircle,
   FiCheckCircle,
 } from "react-icons/fi";
-import { createShortUrl } from "../util/dbServices";
+import { createShortUrl } from "../services/dbServices.ts";
 import { Link } from "react-router-dom";
 import type { ILink } from "./Container";
 import urlValidation, {
   type IUrlValidationResult,
-} from "../util/urlValidation";
-import { validateAlias } from "../util/validateAlias";
+} from "../util/urlValidation.ts";
+import { validateAlias } from "../util/validateAlias.ts";
 
 interface IFormContainerProps {
   setLinks: React.Dispatch<React.SetStateAction<ILink[]>>;

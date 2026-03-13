@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  FiUser,
-  FiMail,
-  FiLock,
-  FiEdit2,
-  FiSave,
-  FiX
-} from "react-icons/fi";
+import { FiUser, FiMail, FiLock, FiEdit2, FiSave, FiX } from "react-icons/fi";
 
 export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
@@ -27,9 +20,8 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-slate-100 px-2">
-      <div className="bg-slate-300 rounded-2xl shadow-lg shadow-slate-600 hover:shadow-xl overflow-hidden w-full max-w-md">
-
+    <div className="flex justify-center px-2 py-36 sm:py-8">
+      <div className="bg-slate-300 rounded-2xl shadow-lg overflow-hidden w-full max-w-md">
         {/* Header */}
         <div className="flex">
           <div className="flex-1 flex bg-white items-center justify-center gap-2 py-4 text-sm font-semibold text-gray-800">
@@ -39,7 +31,6 @@ export default function ProfilePage() {
         </div>
 
         <div className="p-6 space-y-5">
-
           {/* Full Name */}
           <div className="space-y-1">
             <label className="flex items-center gap-1.5 text-sm font-semibold text-gray-700">
