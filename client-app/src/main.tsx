@@ -7,20 +7,35 @@ import { getAppName } from "./util/getAppName.tsx";
 import RedirectPage from "./components/RedirectPage.tsx";
 import LinkNotFound from "./components/LinkNotFound.tsx";
 import QRGenerator from "./pages/QRGenerator.tsx";
+import SignInPage from "./pages/SignInPage.tsx";
+import SignUpPage from "./pages/SignUpPage.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
+import MainLayout from "./layouts/MainLayout.tsx";
+import AuthLayout from "./layouts/AuthLayout.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <title>{getAppName()}</title>
 
     <BrowserRouter>
-
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/:shortUrl" element={<RedirectPage />} />
-        <Route path="/404" element={<LinkNotFound />} />
-        <Route path="/code" element={<QRGenerator shortUrl="http://localhost:3000/wr7uxk" />} />
-        <Route path="/*" element={<LinkNotFound />} />
+        {/* With header */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<App />} />
+          <Route path="/user-profile" element={<ProfilePage />} />
+        </Route>
 
+        {/* Auth pages */}
+        <Route element={<AuthLayout />}>
+          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/sign-up" element={<SignUpPage />} />
+        </Route>
+
+        
+        {/* Redirect */}
+        <Route path="/:shortUrl" element={<RedirectPage />} />
+        {/* 404 */}
+        <Route path="*" element={<LinkNotFound />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

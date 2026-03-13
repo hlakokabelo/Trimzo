@@ -15,6 +15,7 @@ import type { ILink } from "./Container";
 import urlValidation, {
   type IUrlValidationResult,
 } from "../util/urlValidation";
+import { validateAlias } from "../util/validateAlias";
 
 interface IFormContainerProps {
   setLinks: React.Dispatch<React.SetStateAction<ILink[]>>;
@@ -23,7 +24,7 @@ interface IFormContainerProps {
 const saveRecentLink_ToStorage = (link: any) => {
   const existing = JSON.parse(localStorage.getItem("recentLinks") || "[]");
 
-  const updated = [link, ...existing].slice(0, 5); // keep only last 5
+  const updated = [link, ...existing].slice(0, 6); // keep only last 5
 
   localStorage.setItem("recentLinks", JSON.stringify(updated));
 };
@@ -36,6 +37,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
   const [urlError, setUrlError] = useState("");
+  const [AliasError, setAliasError] = useState("");
   const [btnText, setBtnText] = useState("Shorten Link");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
@@ -54,6 +56,8 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
   };
 
   const handleShorten = async () => {
+    if (AliasError !== "") return;
+
     if (submitted) {
       return resetData();
     }
@@ -75,7 +79,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
     setSubmitted(true);
     setBtnText(btnTextVals[1]);
 
-    setLinks((prev) => [data, ...prev].slice(0, 5));
+    setLinks((prev) => [data, ...prev].slice(0, 6));
     saveRecentLink_ToStorage(data);
   };
 
@@ -89,9 +93,17 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
   function handleAlias(
     e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
   ): void {
-    setUrlError("");
-    setUrl(e.target.value);
-    if (e.target.value.trim()) setError(false);
+    const value = e.target.value;
+
+    setAlias(value);
+
+    const result = validateAlias(value);
+
+    if (!result.valid) {
+      setAliasError(result.error!);
+    } else {
+      setAliasError("");
+    }
     setSubmitted(false);
   }
 
@@ -129,8 +141,8 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
                 }`}
                 disabled={submitted}
               />
-              <div className="flex justify-center">
-                <p className="text-red-700">{urlError}</p>
+              <div className="flex justify-center text-sm text-red-700">
+                {urlError}
               </div>
               {error && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -168,13 +180,18 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
                 type="text"
                 value={alias}
                 onChange={(e) => handleAlias(e)}
+                minLength={5}
                 placeholder="Add alias here"
                 className="w-full px-3 py-3 rounded-lg border border-gray-300 text-sm outline-none focus:border-teal-600 placeholder-gray-400"
                 disabled={submitted}
               />
-              <p className="text-xs text-gray-400">
-                Must be at least 5 characters
-              </p>
+              {AliasError === "" ? (
+                <p className="text-xs text-gray-400">
+                  Must be at least 5 characters
+                </p>
+              ) : (
+                <div className="text-xs text-red-700">{AliasError}</div>
+              )}
             </div>
           </div>
 
