@@ -6,10 +6,10 @@ interface IAppProps {}
 
 const App: React.FunctionComponent<IAppProps> = () => {
   return (
-    <>
+    <div>
       <Header />
       <Container />
-    </>
+    </div>
   );
 };
 

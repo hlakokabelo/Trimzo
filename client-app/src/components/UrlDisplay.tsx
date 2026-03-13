@@ -1,7 +1,7 @@
 import * as React from "react";
-import { LuBookCopy } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
+import CopyButton from "./CopyButton";
 interface IUrlDisplayProps {
   fullUrl: string;
   clicks: number;
@@ -16,15 +16,16 @@ const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({
   const icon = `https://www.google.com/s2/favicons?domain=${fullUrl}&sz=32`;
 
   return (
-    <div key={shortId} className="bg-slate-300  grid w-full grid-cols-6 gap-0 items-center border rounded-lg shadow-md">
-      <img src={icon} alt="image" className="col-span-1" />
+    <div className="bg-slate-300  grid w-full grid-cols-6 gap-0 items-center border rounded-lg shadow-md">
+      <div className="flex justify-center">
+        <img src={icon} alt="image" />
+      </div>{" "}
       <div className="text-justify col-span-3 m-0">
-        <a className="cursor-pointer" href={window.location.href
-+shortId}>
-          {window.location.href
-}{shortId}
+        <a className="cursor-pointer" href={window.location.href + shortId}>
+          {window.location.href}
+          {shortId}
         </a>
-        <p className="overflow-ellipsis overflow-hidden text-pink-700">
+        <p className="text-ellipsis text-nowrap overflow-hidden text-pink-700">
           {fullUrl}
         </p>
       </div>
@@ -43,11 +44,11 @@ const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({
         >
           <MdModeEdit />
         </p>
-        <p className="cursor-pointer pt-3 hidden sm:block" onClick={() => {}}>
-          <LuBookCopy />
-        </p>
+        <div className="flex justify-center">
+          <CopyButton textToCopy={window.location.href + shortId} />
+        </div>
         <div className="text-center pl-6 text-slate-800">
-          clicks <br />  {clicks}
+          clicks <br /> {clicks}
         </div>
       </div>
     </div>

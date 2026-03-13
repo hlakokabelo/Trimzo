@@ -1,6 +1,6 @@
 import { FiLink } from "react-icons/fi";
 import * as React from "react";
-import { getAppName } from "../util/utils";
+import { getAppName } from "../util/getAppName";
 
 interface IHeaderProps {}
 
