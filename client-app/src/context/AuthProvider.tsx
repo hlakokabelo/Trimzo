@@ -1,22 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import {
-  log_in,
-  log_out,
-  sign_up,
-  type ApiResponse,
-} from "../services/authServices";
-
-type User = {
-  _id: string;
-  email: string;
-  username: string;
-  name: string;
-  createdAt: string;
-};
+import { log_in, log_out, sign_up } from "../services/authServices";
+import type { User } from "../types/user.types";
+import type { ApiResponse } from "../types/auth.type";
 
 type AuthContextType = {
   user: User | null;
-  loading: boolean;
+  updateUser: (user: User | null) => void;
   login: (email: string, password: string) => Promise<ApiResponse>;
   signup: (
     email: string,
@@ -30,17 +19,28 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-
-    setLoading(false);
   }, []);
+
+  /***
+   * updates user state and sets user to localstorage
+   * removes user from localstorage on logout
+   */
+  const updateUser = (user: User | null) => {
+    if (user) {
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      return;
+    }
+    //log-out
+    setUser(null);
+    localStorage.removeItem("user");
+  };
 
   const login = async (
     email: string,
@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const result = await log_in({ email, password });
 
     if (result.success) {
-      setUser(result.data.user);
+      updateUser(result.data.user);
     } else {
       console.log("Error:", result.error?.message ?? "Unknown error");
     }
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   ): Promise<ApiResponse> => {
     const result = await sign_up({ email, password, username });
     if (result.success) {
-      setUser(result.data.user);
+      updateUser(result.data.user);
 
       //setUser(user);
     } else {
@@ -73,8 +73,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     await log_out();
-    setUser(null);
+    updateUser(null);
   };
-  const values: AuthContextType = { user, loading, signup, login, logout };
+  const values: AuthContextType = { user, updateUser, signup, login, logout };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 }

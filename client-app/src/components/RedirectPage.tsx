@@ -9,7 +9,7 @@ const RedirectPage: React.FunctionComponent<IRedirectPageProps> = () => {
   const navigate = useNavigate();
   React.useEffect(() => {
     const run = async () => {
-      const data = await getUrl(shortUrl!);
+      const { data } = await getUrl(shortUrl!);
 
       if (!data) {
         navigate("/404");
@@ -20,11 +20,10 @@ const RedirectPage: React.FunctionComponent<IRedirectPageProps> = () => {
     };
 
     run();
-  }, []); 
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">
-    
       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
 
       <p className="mt-6 text-black text-lg">

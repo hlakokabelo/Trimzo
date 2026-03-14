@@ -1,15 +1,11 @@
 import * as React from "react";
 import FormContainer from "./FormContainer";
 import UrlDisplay from "./UrlDisplay";
+import type { ShortUrlData } from "../types/url.types";
 interface IContainerProps {}
-export interface ILink {
-  fullUrl: string;
-  clicks: number;
-  shortId: string;
-}
 
 const Container: React.FunctionComponent<IContainerProps> = () => {
-  const [links, setLinks] = React.useState<ILink[]>([]);
+  const [links, setLinks] = React.useState<ShortUrlData[]>([]);
   React.useEffect(() => {
     const stored = JSON.parse(localStorage.getItem("recentLinks") || "[]");
     setLinks(stored);
@@ -23,12 +19,7 @@ const Container: React.FunctionComponent<IContainerProps> = () => {
 
         <div className="grid gap-2 lg:grid-cols-2 flex-wrap flex-shrink min-w-50">
           {links.map((link) => (
-            <UrlDisplay
-              fullUrl={link.fullUrl}
-              key={link.shortId}
-              clicks={link.clicks}
-              shortId={link.shortId}
-            />
+            <UrlDisplay urlData={link} key={link.shortId} />
           ))}
         </div>
       </div>

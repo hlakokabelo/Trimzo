@@ -11,17 +11,17 @@ import {
 } from "react-icons/fi";
 import { createShortUrl } from "../services/dbServices.ts";
 import { Link } from "react-router-dom";
-import type { ILink } from "./Container";
 import urlValidation, {
   type IUrlValidationResult,
-} from "../util/urlValidation.ts";
-import { validateAlias } from "../util/validateAlias.ts";
+} from "../utils/urlValidation.ts";
+import { validateAlias } from "../utils/validateAlias.ts";
+import type { ShortUrlData } from "../types/url.types.ts";
 
 interface IFormContainerProps {
-  setLinks: React.Dispatch<React.SetStateAction<ILink[]>>;
+  setLinks: React.Dispatch<React.SetStateAction<ShortUrlData[]>>;
 }
 
-const saveRecentLink_ToStorage = (link: any) => {
+const saveRecentLink_ToStorage = (link: ShortUrlData) => {
   const existing = JSON.parse(localStorage.getItem("recentLinks") || "[]");
 
   const updated = [link, ...existing].slice(0, 6); // keep only last 5
@@ -55,12 +55,13 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
     setSubmitted(false);
   };
 
-  const handleShorten = async () => {
+  const handleFormSubmit = async () => {
     if (AliasError !== "") return;
 
     if (submitted) {
       return resetData();
     }
+
     //url validation
     const validation: IUrlValidationResult = urlValidation(url);
 
@@ -69,12 +70,17 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
       return;
     }
 
+    //access a reformated url http/https added
     const url_ = validation.url!;
 
     setBtnText(btnTextVals[2]);
-    const data = await createShortUrl(url_, alias);
 
-    setAlias(data.shortId);
+
+    const { data, success } = await createShortUrl(url_, alias);
+    if (!success || !data) return setError(true);
+
+
+    setAlias(data?.shortId!);
     setError(false);
     setSubmitted(true);
     setBtnText(btnTextVals[1]);
@@ -215,7 +221,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
 
           {/* Submit Button */}
           <button
-            onClick={handleShorten}
+            onClick={handleFormSubmit}
             className={`w-full ${submitted ? " bg-slate-600 hover:bg-slate-700 " : " bg-teal-700 hover:bg-teal-800 "} active:scale-[0.98] text-white font-semibold py-3.5 rounded-lg text-sm transition-all duration-150`}
           >
             {btnText}{" "}

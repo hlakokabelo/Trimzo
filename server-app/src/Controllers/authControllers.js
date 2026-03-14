@@ -1,9 +1,27 @@
 import { userModel } from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { encryptPassword } from "../utils/encryptPassword.js";
 
 const validateUserName = () => {};
 
+/**
+ * signs jwt and sets cookie
+ * @param {*} user_id
+ * @param {*} res
+ */
+const setCookie = (user_id, res) => {
+  const token = jwt.sign({ userId: user_id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: "7d",
+  });
+
+  res.cookie("jwt", token, {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // also fixed duration (see below)
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+};
 const signup = async (req, res) => {
   const { email, password, username } = req.body;
   console.log({ email, password, username });
@@ -39,8 +57,7 @@ const signup = async (req, res) => {
     }
 
     //encrypt password
-    const salt = await bcrypt.genSalt(10);
-    const encryptedPassword = await bcrypt.hash(password, salt);
+    const encryptedPassword = await encryptPassword(password);
 
     /*create user
      */
@@ -54,21 +71,10 @@ const signup = async (req, res) => {
     };
     const newUser = await userModel.create({ ...payload });
 
-    const token = jwt.sign(
-      { userId: newUser._id },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "7d" },
-    );
-
-    res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 1000,
-      httpOnly: true, //prevent xss attack,
-      sameSute: "strict", //prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production",
-    });
-
     // removing hashed password from user we returning
     const { password: _, ...user_ } = newUser._doc;
+
+    setCookie(newUser._id, res);
 
     res.status(200).json({ success: true, user: user_ });
   } catch (error) {
@@ -94,21 +100,11 @@ const login = async (req, res) => {
     if (!isPasswordCorrect)
       return res.status(404).json({ message: "Invalid email or password" });
 
-    //sign token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "7d",
-    });
-
-    res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 1000,
-      httpOnly: true, //prevent xss attack,
-      sameSute: "strict", //prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production",
-    });
-
     // removing hashed password from user we returning
 
     const { password: _, ...user_ } = user._doc;
+
+    setCookie(user._id, res);
 
     res.status(200).json({ success: true, user: user_ });
   } catch (error) {

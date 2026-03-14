@@ -1,17 +1,11 @@
 import { FiLink } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { getAppName } from "../util/getAppName.ts";
+import { getAppName } from "../utils/getAppName.ts";
 import { useAuth } from "../hooks/useAuth.ts";
 
 const Header = () => {
-  /*   const user ={
-    name:"Kabelo Hlako",
-    email:"Kabelohlako.kh@gmail.com"
-  } */
-
-  const { user ,logout} = useAuth();
-  console.log(user)
+  const { user, logout } = useAuth();
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">

@@ -1,29 +1,10 @@
-import axios from "axios";
-
-const API_AUTH = import.meta.env.VITE_API_AUTH;
-
-export type SignupPayload = {
-  email: string;
-  password: string;
-  username: string;
-};
-export interface ApiResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: {
-    message: string;
-    status?: number;
-  };
-}
-
-export type LoginPayload = {
-  email: string;
-  password: string;
-};
+import api from "../lib/axios";
+import { ROUTES } from "../config/routes";
+import type { ApiResponse, LoginPayload, SignupPayload } from "../types/auth.type";
 
 export const sign_up = async (data: SignupPayload): Promise<ApiResponse> => {
   try {
-    const res = await axios.post(`${API_AUTH}/signup`, { ...data });
+    const res = await api.post(ROUTES.auth.signup, data);
     return {
       success: true,
       data: res.data,
@@ -41,7 +22,7 @@ export const sign_up = async (data: SignupPayload): Promise<ApiResponse> => {
 
 export const log_in = async (data: LoginPayload): Promise<ApiResponse> => {
   try {
-    const res = await axios.post(`${API_AUTH}/login`, data);
+    const res = await api.post(ROUTES.auth.login, data);
     return {
       success: true,
       data: res.data,
@@ -50,14 +31,27 @@ export const log_in = async (data: LoginPayload): Promise<ApiResponse> => {
     return {
       success: false,
       error: {
-        message: err.response?.data?.message || err.message || "Log-in failed",
+        message: err.response?.data?.message || err.message || "Login failed",
         status: err.response?.status,
       },
     };
   }
 };
 
-export const log_out = async () => {
-  const res = await axios.post(`${API_AUTH}/logout`);
-  return res.data;
+export const log_out = async (): Promise<ApiResponse> => {
+  try {
+    const res = await api.post(ROUTES.auth.logout);
+    return {
+      success: true,
+      data: res.data,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: {
+        message: err.response?.data?.message || err.message || "Logout failed",
+        status: err.response?.status,
+      },
+    };
+  }
 };

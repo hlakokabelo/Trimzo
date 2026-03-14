@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 export default function AuthLayout() {
   const { user } = useAuth();
 
-  if (user) return <Navigate to="/" />;
+  if (user !== null) return <Navigate to="/" />;
 
   return (
     <>

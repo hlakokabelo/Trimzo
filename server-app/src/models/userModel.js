@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      minlength: 6,
     },
 
     username: {
@@ -33,6 +34,5 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
 
 export const userModel = mongoose.model("User", userSchema);

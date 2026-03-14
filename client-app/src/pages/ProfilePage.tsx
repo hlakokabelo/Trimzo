@@ -1,25 +1,79 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiUser, FiMail, FiLock, FiEdit2, FiSave, FiX } from "react-icons/fi";
 import { useAuth } from "../hooks/useAuth";
+import { updateProfile } from "../services/dbServices";
+import {
+  validateName,
+  validatePassword,
+  validateUsername,
+  type ValidationResult,
+} from "../utils/validation";
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const [editing, setEditing] = useState(false);
 
-  const [name, setName] = useState(user ? user.name : "");
-  const [username, setUsername] = useState(user ? user.username : "");
-  const [email, setEmail] = useState(user ? user.email : "");
+  const [name, setName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSave = () => {
+  const validateProfileData = (): ValidationResult => {
+    let validationResult: ValidationResult;
+
+    validationResult = validateName(name);
+    if (!validationResult.isValid) return validationResult;
+
+    validationResult = validateUsername(username);
+    if (!validationResult.isValid) return validationResult;
+
+    validationResult = validatePassword(password);
+    if (!validationResult.isValid) return validationResult;
+
+    return validationResult;
+  };
+  const handleSave = async () => {
     console.log({ name, username, email, password });
+
+    let validationResult: ValidationResult = validateProfileData();
+    if (!validationResult.isValid) {
+      setErrorMessage(`${validationResult.message}`);
+      return;
+    }
+    setErrorMessage(``);
     setEditing(false);
+
+    const userData = {
+      name,
+      username,
+      email,
+      password,
+    };
+
+    const { data, success } = await updateProfile(userData);
+    console.log(data);
+    if (data) updateUser(data);
+  };
+
+  useEffect(() => {
+    resetState();
+  }, []);
+
+  const resetState = () => {
+    setEditing(false);
+    setErrorMessage(``);
+
+    if (!user) return;
+    setName(user.name);
+    setUsername(user.username);
+    setEmail(user.email);
+    setPassword("");
   };
 
   const cancelEdit = () => {
-    setPassword("");
-    setEditing(false);
+    resetState();
   };
 
   return (
@@ -143,6 +197,8 @@ export default function ProfilePage() {
               </button>
             </div>
           )}
+
+          <p className="text-sm text-center text-red-500">{errorMessage}</p>
         </div>
       </div>
     </div>

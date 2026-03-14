@@ -1,4 +1,4 @@
-import { getAppName } from "../util/getAppName";
+import { getAppName } from "../utils/getAppName";
 
 const Footer = () => {
   const github="https://github.com/hlakokabelo/url-shortner"
