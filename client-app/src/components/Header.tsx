@@ -1,23 +1,20 @@
 import { FiLink } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
-import * as React from "react";
 import { Link } from "react-router-dom";
 import { getAppName } from "../util/getAppName.ts";
+import { useAuth } from "../hooks/useAuth.ts";
 
-interface IHeaderProps {
-  user?: { name: string; email: string };
-  onLogout?: () => void;
-}
-
-const Header: React.FC<IHeaderProps> = ({user, onLogout }) => {
-/*   const user ={
+const Header = () => {
+  /*   const user ={
     name:"Kabelo Hlako",
     email:"Kabelohlako.kh@gmail.com"
   } */
+
+  const { user ,logout} = useAuth();
+  console.log(user)
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-        
         {/* Logo */}
         <Link
           to="/"
@@ -29,7 +26,6 @@ const Header: React.FC<IHeaderProps> = ({user, onLogout }) => {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-
           {user ? (
             // Logged-in state
             <>
@@ -48,7 +44,7 @@ const Header: React.FC<IHeaderProps> = ({user, onLogout }) => {
 
               {/* Logout Button */}
               <button
-                onClick={onLogout}
+                onClick={logout}
                 className="text-sm font-semibold px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition-colors"
               >
                 Logout

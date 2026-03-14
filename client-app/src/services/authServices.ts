@@ -7,7 +7,7 @@ export type SignupPayload = {
   password: string;
   username: string;
 };
- export interface ApiResponse<T = any> {
+export interface ApiResponse<T = any> {
   success: boolean;
   data?: T;
   error?: {
@@ -39,7 +39,7 @@ export const sign_up = async (data: SignupPayload): Promise<ApiResponse> => {
   }
 };
 
-export const log_in = async (data: LoginPayload) => {
+export const log_in = async (data: LoginPayload): Promise<ApiResponse> => {
   try {
     const res = await axios.post(`${API_AUTH}/login`, data);
     return {
@@ -50,7 +50,7 @@ export const log_in = async (data: LoginPayload) => {
     return {
       success: false,
       error: {
-        message: err.response?.data?.message || err.message || "Signup failed",
+        message: err.response?.data?.message || err.message || "Log-in failed",
         status: err.response?.status,
       },
     };

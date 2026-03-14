@@ -13,12 +13,9 @@ export default function SignUpPage() {
   const navigate = useNavigate();
   const handleSignUp = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log({ email, username, password });
     const result = await signup(email, password, username);
-
     if (result.success) {
-      return navigate("/sign-in");
+      return navigate("/");
     }
 
     setErrorMessage(result.error?.message ?? "Unknown error");

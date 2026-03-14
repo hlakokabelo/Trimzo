@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { FiUser, FiMail, FiLock, FiEdit2, FiSave, FiX } from "react-icons/fi";
+import { useAuth } from "../hooks/useAuth";
 
 export default function ProfilePage() {
+  const { user } = useAuth();
+
   const [editing, setEditing] = useState(false);
 
-  const [name, setName] = useState("Jon Snow");
-  const [username, setUsername] = useState("jonsnow");
-  const [email, setEmail] = useState("jon@snow.com");
+  const [name, setName] = useState(user ? user.name : "");
+  const [username, setUsername] = useState(user ? user.username : "");
+  const [email, setEmail] = useState(user ? user.email : "");
   const [password, setPassword] = useState("");
 
   const handleSave = () => {

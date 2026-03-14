@@ -67,7 +67,10 @@ const signup = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
     });
 
-    res.status(201).json({ success: true, user: newUser });
+    // removing hashed password from user we returning
+    const { password: _, ...user_ } = newUser._doc;
+
+    res.status(200).json({ success: true, user: user_ });
   } catch (error) {
     console.log("Error in signup controller", error);
     res.status(500).json({ message: "Interal Server error" });
@@ -86,10 +89,7 @@ const login = async (req, res) => {
       return res.status(404).json({ message: "Invalid email or password" });
 
     //verify password
-    const isPasswordCorrect = await bcrypt.compare(
-      enterPassword,
-      user.password,
-    );
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect)
       return res.status(404).json({ message: "Invalid email or password" });
@@ -106,7 +106,11 @@ const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
     });
 
-    res.status(200).json({ success: true, user });
+    // removing hashed password from user we returning
+
+    const { password: _, ...user_ } = user._doc;
+
+    res.status(200).json({ success: true, user: user_ });
   } catch (error) {
     console.log("Error in signup controller", error);
     res.status(500).json({ message: "Interal Server error" });
