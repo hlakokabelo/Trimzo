@@ -13,7 +13,6 @@ const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({ urlData }) => {
   const icon = `https://www.google.com/s2/favicons?domain=${urlData.fullUrl}&sz=32`;
   const shortLink = window.location.origin + "/" + urlData.shortId;
 
-  console.log(urlData);
   const canEdit = user ? false : false;
   return (
     <div className="bg-slate-300 w-full border rounded-lg shadow-md p-3 flex flex-row sm:flex-row sm:items-center sm:justify-between gap-3">

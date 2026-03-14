@@ -10,8 +10,6 @@ import {
 } from "../utils/validation";
 
 export default function ProfilePage() {
-  const { user, updateUser } = useAuth();
-
   const [editing, setEditing] = useState(false);
 
   const [name, setName] = useState("");
@@ -19,6 +17,7 @@ export default function ProfilePage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user, updateUser } = useAuth();
 
   const validateProfileData = (): ValidationResult => {
     let validationResult: ValidationResult;
@@ -57,13 +56,9 @@ export default function ProfilePage() {
     if (data) updateUser(data);
   };
 
-  useEffect(() => {
-    resetState();
-  }, []);
-
-  const resetState = () => {
+  const resetState = async () => {
     setEditing(false);
-    setErrorMessage(``);
+    setErrorMessage("");
 
     if (!user) return;
     setName(user.name);
@@ -75,6 +70,10 @@ export default function ProfilePage() {
   const cancelEdit = () => {
     resetState();
   };
+
+  useEffect(() => {
+    resetState();
+  }, []);
 
   return (
     <div className="flex justify-center px-2 py-36 sm:py-8">
