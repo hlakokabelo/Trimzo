@@ -1,4 +1,4 @@
-import { urlModel } from "../model/urlModel.js";
+import { urlModel } from "../models/urlModel.js";
 
 const createUrl = async (req, res) => {
   try {

@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/dbConfig.js";
-import shortUrlRoute from "./Routes/shortUrl.js";
+import urlRoutes from "./routes/urlRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 import { logger } from "./config/logger.js";
 
@@ -11,15 +12,13 @@ connectDB();
 const app = express();
 
 //middleware
+app.use(express.json()); 
 app.use(
   cors({
     origin: "*",
     credentials: true,
-  }),
+  })
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 //logger middleware
 import { requestLogger } from "./middleware/requestLogger.js";
 app.use(requestLogger);
@@ -30,7 +29,8 @@ app.post("/", (req, res) => {
   return res.send(req.body);
 });
 
-app.use("/api/", shortUrlRoute);
+app.use("/api/", urlRoutes);
+app.use("/api/auth/", authRoutes);
 
 //Error handling middleware
 import notFound from "./middleware/notFound.js";

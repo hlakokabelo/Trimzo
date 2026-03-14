@@ -11,31 +11,33 @@ import SignUpPage from "./pages/SignUpPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
 import AuthLayout from "./layouts/AuthLayout.tsx";
+import { AuthProvider } from "./context/AuthProvider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <title>{getAppName()}</title>
 
     <BrowserRouter>
-      <Routes>
-        {/* With header */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<App />} />
-          <Route path="/profile" element={<ProfilePage />} />
-        </Route>
+      <AuthProvider>
+        <Routes>
+          {/* With header */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<App />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
 
-        {/* Auth pages */}
-        <Route element={<AuthLayout />}>
-          <Route path="/sign-in" element={<SignInPage />} />
-          <Route path="/sign-up" element={<SignUpPage />} />
-        </Route>
+          {/* Auth pages */}
+          <Route element={<AuthLayout />}>
+            <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/sign-up" element={<SignUpPage />} />
+          </Route>
 
-        
-        {/* Redirect */}
-        <Route path="/:shortUrl" element={<RedirectPage />} />
-        {/* 404 */}
-        <Route path="*" element={<LinkNotFound />} />
-      </Routes>
+          {/* Redirect */}
+          <Route path="/:shortUrl" element={<RedirectPage />} />
+          {/* 404 */}
+          <Route path="*" element={<LinkNotFound />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 );

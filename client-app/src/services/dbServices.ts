@@ -36,7 +36,7 @@ const getUrl = async (shortId: string) => {
   }
 };
 const deleteUrl = async (shortId: string) => {
-  const { data } = await axios.get(`${API_SHORTEN_URL}`);
+  const { data } = await axios.delete(`${API_SHORTEN_URL}/${shortId}`);
   console.log(data);
   return data;
 };

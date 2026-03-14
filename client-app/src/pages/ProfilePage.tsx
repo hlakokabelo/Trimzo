@@ -4,13 +4,13 @@ import { FiUser, FiMail, FiLock, FiEdit2, FiSave, FiX } from "react-icons/fi";
 export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
 
-  const [fullName, setFullName] = useState("Jon Snow");
+  const [name, setName] = useState("Jon Snow");
   const [username, setUsername] = useState("jonsnow");
   const [email, setEmail] = useState("jon@snow.com");
   const [password, setPassword] = useState("");
 
   const handleSave = () => {
-    console.log({ fullName, username, email, password });
+    console.log({ name, username, email, password });
     setEditing(false);
   };
 
@@ -31,17 +31,17 @@ export default function ProfilePage() {
         </div>
 
         <div className="p-6 space-y-5">
-          {/* Full Name */}
+          {/* Name */}
           <div className="space-y-1">
             <label className="flex items-center gap-1.5 text-sm font-semibold text-gray-700">
               <FiUser className="w-4 h-4" />
-              Full Name
+              Name
             </label>
 
             <input
               type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               disabled={!editing}
               className={`w-full px-4 py-3 rounded-lg border text-sm outline-none transition
               ${
