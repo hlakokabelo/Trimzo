@@ -6,7 +6,7 @@ import {
   getUrl,
   saveUrls,
   updateUrlAlias,
-} from "../Controllers/urlController.js";
+} from "../controllers/urlController.js";
 import { protectRoute } from "../middleware/protectRoute.js";
 import { optionalAuth } from "../middleware/optionalAuth.js";
 
