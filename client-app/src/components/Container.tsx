@@ -4,6 +4,7 @@ import type { ShortUrlData } from "../types/url.types";
 import { useMyUrls } from "../hooks/useMyUrls";
 import { useAuth } from "../hooks/useAuth"; // assuming this exists
 import UrlListDisplay from "./UrlListDisplay";
+import EmptyHistoryNotice from "./EmptyHistoryNotice";
 
 const Container: React.FunctionComponent = () => {
   const { user } = useAuth();
@@ -27,7 +28,11 @@ const Container: React.FunctionComponent = () => {
 
       <div className="flex-col w-7/8 m-2 justify-center mt-8">
         <h2 className="text-3xl mb-2 text-slate-950">Your Recent Links:</h2>
-        <UrlListDisplay urls={urls} />
+        {urls.length !== 0 ? (
+          <UrlListDisplay urls={urls} />
+        ) : (
+          <EmptyHistoryNotice />
+        )}
       </div>
     </div>
   );

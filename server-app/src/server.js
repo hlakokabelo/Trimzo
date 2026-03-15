@@ -6,29 +6,41 @@ import connectDB from "./config/dbConfig.js";
 import cookieParser from "cookie-parser";
 import { logger } from "./config/logger.js";
 
-
-
 import urlRoutes from "./routes/urlRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-
 
 dotenv.config();
 await connectDB();
 const app = express();
 
-//middleware
 app.use(cookieParser());
 app.use(express.json());
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://trimzo.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  }),
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app")
+      ) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+  })
 );
 //logger middleware
 import { requestLogger } from "./middleware/requestLogger.js";
-app.use(requestLogger);
+if (process.env.NODE_ENV === "development") app.use(requestLogger);
 
 const PORT = process.env.PORT || 5001;
 
