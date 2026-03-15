@@ -85,7 +85,7 @@ export const saveUrls = async (
   urls: ShortUrlData[],
 ): Promise<ApiResponse<ShortUrlData[]>> => {
   try {
-    const res = await api.post(ROUTES.urls.saveUrls, { urls });
+    const res = await api.patch(ROUTES.urls.saveUrls, { urls });
 
     return {
       success: true,

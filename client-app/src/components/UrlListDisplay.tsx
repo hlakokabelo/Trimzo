@@ -10,8 +10,9 @@ const UrlListDisplay: React.FunctionComponent<IUrlListDisplayProps> = ({
   urls,
 }) => {
   const [page, setPage] = React.useState<number>(1);
-  const maxPage = Math.ceil(urls.length / 6); //show 6 urls per page
-
+  const items: number = 6;
+  let maxPage = Math.ceil(urls.length / items); //show 6 urls per page
+  if (urls.length === 0) maxPage = 1;
   const handlePreviousPage = () => {
     if (page === 1) return;
 
@@ -25,11 +26,11 @@ const UrlListDisplay: React.FunctionComponent<IUrlListDisplayProps> = ({
   return (
     <div>
       <div className="grid gap-2 lg:grid-cols-2 min-w-50">
-        {urls.slice((page - 1) * 6, 6 * page).map((link) => (
+        {urls.slice((page - 1) * items, items * page).map((link) => (
           <UrlDisplay
             urlData={link}
             className={
-              urls.slice((page - 1) * 6, 6 * page).length === 1
+              urls.slice((page - 1) * items, items * page).length === 1
                 ? "col-span-2"
                 : ""
             }
@@ -38,24 +39,22 @@ const UrlListDisplay: React.FunctionComponent<IUrlListDisplayProps> = ({
         ))}
       </div>
 
-      {maxPage > 1 && (
-        <div className="flex flex-row gap-3 justify-end pt-1">
-          <button
-            onClick={handlePreviousPage}
-            disabled={page === 1}
-            className={`border rounded-xl text-lg border-blue-700 px-2 ${page === 1 ? "opacity-60" : "hover:bg-blue-400 cursor-pointer"}`}
-          >
-            prev
-          </button>
-          <button
-            onClick={handleNextPage}
-            disabled={page === maxPage}
-            className={`border rounded-xl text-lg text-black border-blue-700 px-2 ${page === maxPage ? "opacity-60" : "hover:bg-blue-400 cursor-pointer"}`}
-          >
-            next
-          </button>
-        </div>
-      )}
+      <div className="flex flex-row gap-3 justify-end pt-1">
+        <button
+          onClick={handlePreviousPage}
+          disabled={page === 1}
+          className={`border rounded-xl text-lg border-blue-700 px-2 ${page === 1 ? "opacity-60" : "hover:bg-blue-400 cursor-pointer"}`}
+        >
+          prev
+        </button>
+        <button
+          onClick={handleNextPage}
+          disabled={page === maxPage}
+          className={`border rounded-xl text-lg text-black border-blue-700 px-2 ${page === maxPage ? "opacity-60" : "hover:bg-blue-400 cursor-pointer"}`}
+        >
+          next
+        </button>
+      </div>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import {
   validateUsername,
   type ValidationResult,
 } from "../utils/validation";
+import { Navigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
@@ -76,6 +77,9 @@ export default function ProfilePage() {
   useEffect(() => {
     resetState();
   }, []);
+
+  if(!user)
+   return <Navigate to={'/'}/>
 
   return (
     <div className="flex justify-center px-2 py-36 sm:py-8">

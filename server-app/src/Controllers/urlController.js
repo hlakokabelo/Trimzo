@@ -82,14 +82,14 @@ const saveUrls = async (req, res) => {
     const { urls } = req.body;
 
     urls.forEach(async (url_) => {
-      const url = await urlModel.findOne({ shortId: url_._id });
+      const url = await urlModel.findById({ _id: url_._id });
       if (url) {
         url.user = req.user._id;
         await url.save();
       }
     });
 
-    res.status(200).json(urls);
+    res.status(200).json({urls,user: req.user._id});
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
