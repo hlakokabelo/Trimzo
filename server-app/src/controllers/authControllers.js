@@ -16,10 +16,10 @@ const setCookie = (user_id, res) => {
   });
 
   res.cookie("jwt", token, {
-    maxAge: 7 * 24 * 60 * 60 * 1000, // also fixed duration (see below)
+    maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: "none", // important for cross-site cookies
+    secure: true, // must be true when sameSite is none
   });
 };
 
