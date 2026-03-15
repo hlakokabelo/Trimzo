@@ -16,6 +16,7 @@ const Header = () => {
         >
           <FiLink className="w-6 h-6" />
           {getAppName()}
+          
         </Link>
 
         {/* Right side */}

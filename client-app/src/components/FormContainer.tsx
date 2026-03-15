@@ -6,7 +6,6 @@ import {
   FiGlobe,
   FiEdit2,
   FiNavigation,
-  FiAlertCircle,
   FiCheckCircle,
 } from "react-icons/fi";
 import { createShortUrl } from "../services/dbServices.ts";
@@ -44,7 +43,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
   const [AliasError, setAliasError] = useState("");
   const [btnText, setBtnText] = useState("Shorten Link");
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("err");
+  const [error, setError] = useState("");
 
   {
     submitted ? "Shorten Another Link" : "Shorten Link";
