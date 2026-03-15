@@ -22,6 +22,7 @@ const setCookie = (user_id, res) => {
     secure: process.env.NODE_ENV === "production",
   });
 };
+
 const signup = async (req, res) => {
   const { email, password, username } = req.body;
   console.log({ email, password, username });
