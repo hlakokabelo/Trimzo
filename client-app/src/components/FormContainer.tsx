@@ -16,23 +16,27 @@ import urlValidation, {
 } from "../utils/urlValidation.ts";
 import { validateAlias } from "../utils/validateAlias.ts";
 import type { ShortUrlData } from "../types/url.types.ts";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface IFormContainerProps {
   setLinks: React.Dispatch<React.SetStateAction<ShortUrlData[]>>;
+  isLoggedIn: boolean;
 }
 
 const saveRecentLink_ToStorage = (link: ShortUrlData) => {
-  const existing = JSON.parse(localStorage.getItem("recentLinks") || "[]");
+  const existing = JSON.parse(localStorage.getItem("guestUrls") || "[]");
 
   const updated = [link, ...existing].slice(0, 6); // keep only last 5
 
-  localStorage.setItem("recentLinks", JSON.stringify(updated));
+  localStorage.setItem("guestUrls", JSON.stringify(updated));
 };
 
 const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
   setLinks,
+  isLoggedIn,
 }) => {
   const domain = import.meta.env.VITE_DOMAIN_URL;
+  const queryClient = useQueryClient();
 
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
@@ -40,7 +44,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
   const [AliasError, setAliasError] = useState("");
   const [btnText, setBtnText] = useState("Shorten Link");
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("err");
 
   {
     submitted ? "Shorten Another Link" : "Shorten Link";
@@ -75,24 +79,26 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
 
     setBtnText(btnTextVals[2]);
 
-
-    const { data, success } = await createShortUrl(url_, alias);
-    if (!success || !data) return setError(true);
-
+    const { data, error, success } = await createShortUrl(url_, alias);
+    if (!success || !data) {
+      setBtnText(btnTextVals[0]);
+      return setError(error?.message!);
+    }
 
     setAlias(data?.shortId!);
-    setError(false);
+    setError("");
     setSubmitted(true);
     setBtnText(btnTextVals[1]);
-
-    setLinks((prev) => [data, ...prev].slice(0, 6));
-    saveRecentLink_ToStorage(data);
+    if (!isLoggedIn) {
+      setLinks((prev) => [data, ...prev].slice(0, 6));
+      saveRecentLink_ToStorage(data);
+    }
+    queryClient.invalidateQueries({ queryKey: ["myUrls"] });
   };
 
   const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrlError("");
     setUrl(e.target.value);
-    if (e.target.value.trim()) setError(false);
     setSubmitted(false);
   };
 
@@ -140,23 +146,14 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
                 value={url}
                 onChange={handleUrlChange}
                 placeholder="Paste long URL here"
-                className={`w-full px-4 py-3 pr-10 rounded-lg border text-sm outline-none transition-colors placeholder-gray-400 ${
-                  error
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 focus:border-teal-600"
-                }`}
+                className={`w-full px-4 py-3 pr-10 rounded-lg border text-sm outline-none transition-colors placeholder-gray-400
+        border-gray-300 focus:border-teal-600`}
                 disabled={submitted}
               />
               <div className="flex justify-center text-sm text-red-700">
                 {urlError}
               </div>
-              {error && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                  <FiAlertCircle className="w-5 h-5 text-red-500" />
-                </div>
-              )}
             </div>
-            {error && <p className="text-xs text-red-500">Required field</p>}
           </div>
 
           {/* Domain + Alias */}
@@ -226,6 +223,8 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
           >
             {btnText}{" "}
           </button>
+
+          <p className="text-xs text-center text-red-500">{error}</p>
 
           {/* Footer */}
           <p className="text-xs text-gray-500 leading-relaxed">

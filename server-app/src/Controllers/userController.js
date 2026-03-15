@@ -49,3 +49,13 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const getMe = async (req, res) => {
+  try {
+    if (!req.user) return res.status(200).json({ user });
+    const user = await userModel.findById(req.user._id);
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};

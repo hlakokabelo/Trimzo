@@ -51,9 +51,11 @@ export default function ProfilePage() {
       password,
     };
 
-    const { data, success } = await updateProfile(userData);
+    const { data, error } = await updateProfile(userData);
     console.log(data);
     if (data) updateUser(data);
+
+    if (error) setErrorMessage(error.message);
   };
 
   const resetState = async () => {

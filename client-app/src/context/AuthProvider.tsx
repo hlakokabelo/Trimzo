@@ -5,68 +5,51 @@ import type { ApiResponse } from "../types/auth.type";
 
 type AuthContextType = {
   user: User | null;
-  updateUser: (user: User | null) => void;
   login: (email: string, password: string) => Promise<ApiResponse>;
-  signup: (
-    email: string,
-    password: string,
-    username: string,
-  ) => Promise<ApiResponse>;
-  logout: () => void;
+  signup: (email: string, password: string, username: string) => Promise<ApiResponse>;
+  logout: () => Promise<void>;
+  updateUser: (user: User | null) => void;
 };
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  // Load user from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch {
+        localStorage.removeItem("user"); // fallback if JSON is corrupted
+      }
     }
   }, []);
 
-  /***
-   * updates user state and sets user to localstorage
-   * removes user from localstorage on logout
-   */
-  const updateUser = (user: User | null) => {
-    if (user) {
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-      return;
+  // Updates user in state and localStorage
+  const updateUser = (newUser: User | null) => {
+    setUser(newUser);
+    if (newUser) {
+      localStorage.setItem("user", JSON.stringify(newUser));
+    } else {
+      localStorage.removeItem("user");
     }
-    //log-out
-    setUser(null);
-    localStorage.removeItem("user");
   };
 
-  const login = async (
-    email: string,
-    password: string,
-  ): Promise<ApiResponse> => {
+  const login = async (email: string, password: string) => {
     const result = await log_in({ email, password });
-
-    if (result.success) {
+    if (result.success && result.data?.user) {
       updateUser(result.data.user);
-    } else {
-      console.log("Error:", result.error?.message ?? "Unknown error");
     }
     return result;
   };
-  const signup = async (
-    email: string,
-    password: string,
-    username: string,
-  ): Promise<ApiResponse> => {
-    const result = await sign_up({ email, password, username });
-    if (result.success) {
-      updateUser(result.data.user);
 
-      //setUser(user);
-    } else {
-      console.log("Error:", result.error?.message ?? "Unknown error");
+  const signup = async (email: string, password: string, username: string) => {
+    const result = await sign_up({ email, password, username });
+    if (result.success && result.data?.user) {
+      updateUser(result.data.user);
     }
     return result;
   };
@@ -75,6 +58,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await log_out();
     updateUser(null);
   };
-  const values: AuthContextType = { user, updateUser, signup, login, logout };
-  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
-}
+
+  return (
+    <AuthContext.Provider value={{ user, updateUser, login, signup, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

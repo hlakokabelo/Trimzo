@@ -4,6 +4,7 @@ import {
   deleteUrl,
   getMyUrls,
   getUrl,
+  saveUrls,
   updateUrlAlias,
 } from "../Controllers/urlController.js";
 import { protectRoute } from "../middleware/protectRoute.js";
@@ -19,6 +20,7 @@ router.post("/shortenUrl", optionalAuth, createUrl);
 /* logged-in user URLs */
 router.delete("/urls/:id", protectRoute, deleteUrl);
 router.get("/urls/me", protectRoute, getMyUrls);
+router.patch("/urls/saveUrls", protectRoute, saveUrls);
 router.patch("/urls/alias", protectRoute, updateUrlAlias);
 
 export default router;

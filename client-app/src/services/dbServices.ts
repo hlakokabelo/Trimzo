@@ -61,6 +61,31 @@ export const createShortUrl = async (
 export const getMyUrls = async (): Promise<ApiResponse<ShortUrlData[]>> => {
   try {
     const res = await api.get(ROUTES.urls.myUrls);
+    console.log(res.data);
+    return {
+      success: true,
+      data: res.data,
+    };
+  } catch (err: any) {
+    console.error("Get my URLs error:", err);
+    return {
+      success: false,
+      error: {
+        message:
+          err.response?.data?.message || err.message || "Failed to fetch URLs",
+        status: err.response?.status,
+      },
+      data: [], // Return empty array as fallback
+    };
+  }
+};
+
+// saves urls that were created offline
+export const saveUrls = async (
+  urls: ShortUrlData[],
+): Promise<ApiResponse<ShortUrlData[]>> => {
+  try {
+    const res = await api.post(ROUTES.urls.saveUrls, { urls });
 
     return {
       success: true,
@@ -118,9 +143,9 @@ export const getUrl = async (
 };
 
 // Delete URL (protected route)
-export const deleteUrl = async (shortUrl: string): Promise<ApiResponse> => {
+export const deleteUrl = async (urlId: string): Promise<ApiResponse> => {
   try {
-    const { data } = await api.delete(ROUTES.urls.delete(shortUrl));
+    const { data } = await api.delete(ROUTES.urls.delete(urlId));
 
     return {
       success: true,

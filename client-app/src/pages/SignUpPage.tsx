@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FiUser, FiMail, FiLock, FiUserPlus } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useMigrateLocalUrls } from "../hooks/useMigrateLocalUrls";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -11,10 +12,18 @@ export default function SignUpPage() {
 
   const { signup } = useAuth();
   const navigate = useNavigate();
+
+  const migrateLocalUrls = useMigrateLocalUrls();
+
+  const handleSignUpSuccess = async () => {
+    await migrateLocalUrls();
+  };
+
   const handleSignUp = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await signup(email, password, username);
     if (result.success) {
+      await handleSignUpSuccess();
       return navigate("/");
     }
 

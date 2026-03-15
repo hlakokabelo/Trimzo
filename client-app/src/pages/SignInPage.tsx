@@ -2,6 +2,7 @@ import { useState, type SubmitEvent } from "react";
 import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useMigrateLocalUrls } from "../hooks/useMigrateLocalUrls";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -11,12 +12,18 @@ export default function SignInPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const migrateLocalUrls = useMigrateLocalUrls();
+
+  const handleLoginSuccess = async () => {
+    await migrateLocalUrls();
+  };
   const onSubmitSignIn = async (
     e: SubmitEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
     const result = await login(email, password);
     if (result.success) {
+      await handleLoginSuccess();
       return navigate("/");
     }
 

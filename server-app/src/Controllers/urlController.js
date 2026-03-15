@@ -24,7 +24,15 @@ const createUrl = async (req, res) => {
       const urlFound = await urlModel.findOne({ fullUrl });
 
       if (urlFound) {
-        return res.status(200).json({ ...urlFound });
+        return res.status(200).json({ ...urlFound._doc });
+      }
+    }
+
+    //if user already shortend url return the shortened one
+    if (req.user) {
+      const urlFound = await urlModel.findOne({ fullUrl, user: req.user._id });
+      if (urlFound) {
+        return res.status(200).json({ ...urlFound._doc });
       }
     }
 
@@ -35,14 +43,16 @@ const createUrl = async (req, res) => {
     });
 
     const link = `http://localhost:5000/api/shortenUrl/${newUrl.shortId}`;
-    const token = req?.token||"none";
+    const token = req?.token || "none";
 
     res.status(201).json({
       ...newUrl._doc,
       apiLink: link,
-      token
+      token,
     });
   } catch (error) {
+    console.log("----------------------------------------", error.message);
+
     res.status(500).json({
       message: "Internal server error",
       error: error.message,
@@ -56,6 +66,28 @@ const getMyUrls = async (req, res) => {
     const urls = await urlModel
       .find({ user: req.user._id })
       .sort({ createdAt: -1 });
+
+    res.status(200).json(urls);
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+/*Saves urls that were on localStorage */
+const saveUrls = async (req, res) => {
+  try {
+    const { urls } = req.body;
+
+    urls.forEach(async (url_) => {
+      const url = await urlModel.findOne({ shortId: url_._id });
+      if (url) {
+        url.user = req.user._id;
+        await url.save();
+      }
+    });
 
     res.status(200).json(urls);
   } catch (error) {
@@ -162,4 +194,4 @@ const updateUrlAlias = async (req, res) => {
   }
 };
 
-export { createUrl, getMyUrls, updateUrlAlias, getUrl, deleteUrl };
+export { createUrl, getMyUrls, updateUrlAlias, getUrl, deleteUrl, saveUrls };

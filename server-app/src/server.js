@@ -14,13 +14,13 @@ await connectDB();
 const app = express();
 
 //middleware
-app.use(cookieParser()); 
-app.use(express.json()); 
+app.use(cookieParser());
+app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
-  })
+  }),
 );
 //logger middleware
 import { requestLogger } from "./middleware/requestLogger.js";
@@ -29,7 +29,6 @@ app.use(requestLogger);
 const PORT = process.env.PORT || 5001;
 
 app.post("/", (req, res) => {
-
   return res.send(req.body);
 });
 app.use("/api/users", userRoutes);

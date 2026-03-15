@@ -13,6 +13,7 @@ export const ROUTES = {
     base: `${API_BASE_URL}/shortenUrl`,
     get: (id: string) => `${API_BASE_URL}/shortenUrl/${id}`,
     myUrls: `${API_BASE_URL}/urls/me`,
+    saveUrls:`${API_BASE_URL}/urls/saveUrls`,
     delete: (id: string) => `${API_BASE_URL}/urls/${id}`,
     updateAlias: `${API_BASE_URL}/urls/alias`,
   },
