@@ -1,6 +1,5 @@
 import * as React from "react";
 import FormContainer from "./FormContainer";
-import UrlDisplay from "./UrlDisplay";
 import type { ShortUrlData } from "../types/url.types";
 import { useMyUrls } from "../hooks/useMyUrls";
 import { useAuth } from "../hooks/useAuth"; // assuming this exists
