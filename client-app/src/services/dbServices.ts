@@ -43,7 +43,6 @@ export const createShortUrl = async (
       data: response.data,
     };
   } catch (err: any) {
-    console.error("Create short URL error:", err);
     return {
       success: false,
       error: {
@@ -61,13 +60,11 @@ export const createShortUrl = async (
 export const getMyUrls = async (): Promise<ApiResponse<ShortUrlData[]>> => {
   try {
     const res = await api.get(ROUTES.urls.myUrls);
-    console.log(res.data);
     return {
       success: true,
       data: res.data,
     };
   } catch (err: any) {
-    console.error("Get my URLs error:", err);
     return {
       success: false,
       error: {
@@ -92,7 +89,6 @@ export const saveUrls = async (
       data: res.data,
     };
   } catch (err: any) {
-    console.error("Get my URLs error:", err);
     return {
       success: false,
       error: {
@@ -130,7 +126,6 @@ export const getUrl = async (
     }
 
     // Handle other errors
-    console.error("Get URL error:", err);
     return {
       success: false,
       error: {
@@ -152,7 +147,6 @@ export const deleteUrl = async (urlId: string): Promise<ApiResponse> => {
       data,
     };
   } catch (err: any) {
-    console.error("Delete URL error:", err);
     return {
       success: false,
       error: {
@@ -177,7 +171,6 @@ export const updateUrlAlias = async (
       data: res.data,
     };
   } catch (err: any) {
-    console.error("Update alias error:", err);
     return {
       success: false,
       error: {

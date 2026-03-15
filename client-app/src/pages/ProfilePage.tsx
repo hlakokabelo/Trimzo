@@ -35,7 +35,6 @@ export default function ProfilePage() {
     return validationResult;
   };
   const handleSave = async () => {
-    console.log({ name, username, email, password });
 
     let validationResult: ValidationResult = validateProfileData();
     if (!validationResult.isValid) {
@@ -53,7 +52,6 @@ export default function ProfilePage() {
     };
 
     const { data, error } = await updateProfile(userData);
-    console.log(data);
     if (data) updateUser(data);
 
     if (error) setErrorMessage(error.message);

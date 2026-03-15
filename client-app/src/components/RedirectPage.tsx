@@ -15,7 +15,6 @@ const RedirectPage: React.FunctionComponent<IRedirectPageProps> = () => {
         navigate("/404");
         return;
       }
-      console.log(data);
       window.location.href = data.fullUrl;
     };
 

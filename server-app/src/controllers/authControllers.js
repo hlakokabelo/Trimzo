@@ -25,7 +25,6 @@ const setCookie = (user_id, res) => {
 
 const signup = async (req, res) => {
   const { email, password, username } = req.body;
-  console.log({ email, password, username });
   try {
     if (!email || !password || !username) {
       return res.status(400).json({ message: "All fields are required" });
@@ -79,7 +78,6 @@ const signup = async (req, res) => {
 
     res.status(200).json({ success: true, user: user_ });
   } catch (error) {
-    console.log("Error in signup controller", error);
     res.status(500).json({ message: "Interal Server error" });
   }
 };
@@ -109,7 +107,6 @@ const login = async (req, res) => {
 
     res.status(200).json({ success: true, user: user_ });
   } catch (error) {
-    console.log("Error in signup controller", error);
     res.status(500).json({ message: "Interal Server error" });
   }
 };
