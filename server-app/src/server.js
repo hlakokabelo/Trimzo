@@ -17,26 +17,21 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://trimzo.vercel.app",
-];
+const allowedOrigins = ["http://localhost:3000", "https://trimzo.vercel.app"];
 
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
 
-      if (
-        allowedOrigins.includes(origin) ||
-        origin.endsWith(".vercel.app")
-      ) {
+      if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
         return callback(null, true);
       }
 
       return callback(new Error("Not allowed by CORS"));
     },
-  })
+    credentials: true,
+  }),
 );
 //logger middleware
 import { requestLogger } from "./middleware/requestLogger.js";
