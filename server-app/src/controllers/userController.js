@@ -34,6 +34,11 @@ export const updateProfile = async (req, res) => {
     if (name) user.name = name;
 
     if (password && password !== "") {
+      if (password.length < 6) {
+        return res
+          .status(400)
+          .json({ message: `Password must be at least 6 characters` });
+      }
       user.password = encryptPassword(password);
     }
 

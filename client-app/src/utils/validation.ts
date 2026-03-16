@@ -9,17 +9,17 @@ export interface ValidationResult {
 
 // Password validation
 export const validatePassword = (password: string): ValidationResult => {
-  if (!password) {
+  if (password === "") {
     return {
-      field: 'password',
-      message: 'Password is required',
-      isValid: false,
+      field: "password",
+      message: "",
+      isValid: true,
     };
   }
 
   if (password.length < 6) {
     return {
-      field: 'password',
+      field: "password",
       message: `Password must be at least 6 characters (current: ${password.length})`,
       value: password.length,
       isValid: false,
@@ -27,8 +27,8 @@ export const validatePassword = (password: string): ValidationResult => {
   }
   // No error
   return {
-    field: 'password',
-    message: '',
+    field: "password",
+    message: "",
     isValid: true,
   };
 };
@@ -37,17 +37,17 @@ export const validatePassword = (password: string): ValidationResult => {
 export const validateUsername = (username: string): ValidationResult => {
   if (!username) {
     return {
-      field: 'username',
-      message: 'Username is required',
+      field: "username",
+      message: "Username is required",
       isValid: false,
     };
   }
 
   const trimmed = username.trim();
-  
+
   if (trimmed.length < 3) {
     return {
-      field: 'username',
+      field: "username",
       message: `Username must be at least 3 characters (current: ${trimmed.length})`,
       value: trimmed.length,
       isValid: false,
@@ -56,7 +56,7 @@ export const validateUsername = (username: string): ValidationResult => {
 
   if (trimmed.length > 20) {
     return {
-      field: 'username',
+      field: "username",
       message: `Username must not exceed 20 characters (current: ${trimmed.length})`,
       value: trimmed.length,
       isValid: false,
@@ -67,8 +67,8 @@ export const validateUsername = (username: string): ValidationResult => {
   const usernameRegex = /^[a-zA-Z0-9_]+$/;
   if (!usernameRegex.test(trimmed)) {
     return {
-      field: 'username',
-      message: 'Username can only contain letters, numbers, and underscores',
+      field: "username",
+      message: "Username can only contain letters, numbers, and underscores",
       isValid: false,
     };
   }
@@ -76,16 +76,16 @@ export const validateUsername = (username: string): ValidationResult => {
   // Check if starts with letter or underscore
   if (!/^[a-zA-Z_]/.test(trimmed)) {
     return {
-      field: 'username',
-      message: 'Username must start with a letter or underscore',
+      field: "username",
+      message: "Username must start with a letter or underscore",
       isValid: false,
     };
   }
 
   // No error
   return {
-    field: 'username',
-    message: '',
+    field: "username",
+    message: "",
     isValid: true,
   };
 };
@@ -95,17 +95,17 @@ export const validateName = (name?: string): ValidationResult => {
   // Name is optional, so empty is valid
   if (!name || !name.trim()) {
     return {
-      field: 'name',
-      message: '',
+      field: "name",
+      message: "",
       isValid: true,
     };
   }
 
   const trimmed = name.trim();
-  
+
   if (trimmed.length > 80) {
     return {
-      field: 'name',
+      field: "name",
       message: `Name must not exceed 80 characters (current: ${trimmed.length})`,
       value: trimmed.length,
       isValid: false,
@@ -116,16 +116,17 @@ export const validateName = (name?: string): ValidationResult => {
   const nameRegex = /^[a-zA-Z\s'-]+$/;
   if (!nameRegex.test(trimmed)) {
     return {
-      field: 'name',
-      message: 'Name can only contain letters, spaces, hyphens, and apostrophes',
+      field: "name",
+      message:
+        "Name can only contain letters, spaces, hyphens, and apostrophes",
       isValid: false,
     };
   }
 
   // No error
   return {
-    field: 'name',
-    message: '',
+    field: "name",
+    message: "",
     isValid: true,
   };
 };

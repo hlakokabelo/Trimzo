@@ -35,7 +35,6 @@ export default function ProfilePage() {
     return validationResult;
   };
   const handleSave = async () => {
-
     let validationResult: ValidationResult = validateProfileData();
     if (!validationResult.isValid) {
       setErrorMessage(`${validationResult.message}`);
@@ -76,8 +75,7 @@ export default function ProfilePage() {
     resetState();
   }, []);
 
-  if(!user)
-   return <Navigate to={'/'}/>
+  if (!user) return <Navigate to={"/"} />;
 
   return (
     <div className="flex justify-center px-2 py-36 sm:py-8">
