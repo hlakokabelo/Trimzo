@@ -222,7 +222,11 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
           >
             {btnText}{" "}
           </button>
-
+          {!submitted && (
+            <p className="text-xs text-amber-600 text-center">
+              First request may take a few seconds while the server wakes up.
+            </p>
+          )}
           <p className="text-xs text-center text-red-500">{error}</p>
 
           {/* Footer */}

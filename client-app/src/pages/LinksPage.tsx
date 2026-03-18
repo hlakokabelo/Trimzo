@@ -1,12 +1,12 @@
 import * as React from "react";
-import FormContainer from "./FormContainer";
+import FormContainer from "../components/FormContainer";
 import type { ShortUrlData } from "../types/url.types";
 import { useMyUrls } from "../hooks/useMyUrls";
 import { useAuth } from "../hooks/useAuth"; // assuming this exists
-import UrlListDisplay from "./UrlListDisplay";
-import EmptyHistoryNotice from "./EmptyHistoryNotice";
+import UrlListDisplay from "../components/UrlListDisplay";
+import EmptyHistoryNotice from "../components/EmptyHistoryNotice";
 
-const Container: React.FunctionComponent = () => {
+const LinksPage: React.FunctionComponent = () => {
   const { user } = useAuth();
 
   const { data: cloudUrls = [] } = useMyUrls(!!user);
@@ -38,4 +38,4 @@ const Container: React.FunctionComponent = () => {
   );
 };
 
-export default Container;
+export default LinksPage ;
