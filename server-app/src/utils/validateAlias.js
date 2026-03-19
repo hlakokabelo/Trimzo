@@ -1,11 +1,7 @@
-export type AliasValidationResult = {
-  valid: boolean;
-  error?: string;
-};
 
 const reserved = ["sign-in", "sign-up", "profile","policies", "admin", "api", "404"];
 
-export function validateAlias(alias: string): AliasValidationResult {
+export function validateAlias(alias) {
   const trimmed = alias.trim();
 
   if (reserved.includes(trimmed.toLowerCase())) {

@@ -1,5 +1,6 @@
 import { userModel } from "../models/userModel.js";
 import { encryptPassword } from "../utils/encryptPassword.js";
+import { validateSignUp } from "../utils/validateSignUp.js";
 
 export const updateProfile = async (req, res) => {
   try {
@@ -11,13 +12,18 @@ export const updateProfile = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    if (name && name.length > 30) {
+      return res.status(404).json({ isValid: false, error: "Name cannot exceed 30 characters" })
+    }
+
+    validateSignUp(res, { password, username, email });
+
     if (username && username !== user.username) {
       const existing = await userModel.findOne({ username });
 
       if (existing) {
         return res.status(400).json({ message: "Username already taken" });
       }
-
       user.username = username;
     }
 
@@ -34,11 +40,6 @@ export const updateProfile = async (req, res) => {
     if (name) user.name = name;
 
     if (password && password !== "") {
-      if (password.length < 6) {
-        return res
-          .status(400)
-          .json({ message: `Password must be at least 6 characters` });
-      }
       user.password = encryptPassword(password);
     }
 

@@ -2,8 +2,8 @@ import { userModel } from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { encryptPassword } from "../utils/encryptPassword.js";
-
-const validateUserName = () => {};
+import { validatePassword, validateUsername } from "../utils/validation.js";
+import { validateSignUp } from "../utils/validateSignUp.js";
 
 /**
  * signs jwt and sets cookie
@@ -30,17 +30,7 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ message: `Password must be at least 6 characters` });
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ message: "Invalid email format" });
-    }
+    validateSignUp(res, { password, username, email });
 
     const emailTaken = await userModel.findOne({ email });
     if (emailTaken) {

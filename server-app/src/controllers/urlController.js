@@ -1,6 +1,8 @@
 import { urlModel } from "../models/urlModel.js";
 import { userModel } from "../models/userModel.js";
 import { findByAlias, shortenUrl } from "../services/shortenService.js";
+import { urlValidation } from "../utils/urlValidation.js";
+import { validateAlias } from "../utils/validateAlias.js";
 
 /* CREATE SHORT URL - public route */
 const createUrl = async (req, res) => {
@@ -11,12 +13,17 @@ const createUrl = async (req, res) => {
       return res.status(400).json({ message: "fullUrl is required" });
     }
 
+    let validate = urlValidation(fullUrl);
+
+    if (!validate.isValid) {
+      return res.status(400).json({ message: validate.error });
+    }
+
     // check if alias already exists
     if (alias) {
-      if (alias.length < 5) {
-        return res
-          .status(400)
-          .json({ message: "Alias must be at least 5 characteres long" });
+      validate = validateAlias(alias);
+      if (!validate.isValid) {
+        return res.status(400).json({ message: validate.error });
       }
 
       const aliasFound = await urlModel.findOne({ shortId: alias });
@@ -60,11 +67,16 @@ const createUrlByQuery = async (req, res) => {
     return res.status(400).json({ error: "Please provide a link to shorten" });
   }
 
+  let validate = urlValidation(longUrl);
+
+  if (!validate.isValid) {
+    return res.status(400).json({ message: validate.error });
+  }
+
   if (alias) {
-    if (alias.length < 5 || alias.length>30) {
-      return res
-        .status(400)
-        .json({ message: "Alias must be of length between 5 & 30 characters" });
+    validate = validateAlias(alias);
+    if (!validate.isValid) {
+      return res.status(400).json({ message: validate.error });
     }
     const response = await findByAlias(alias);
 

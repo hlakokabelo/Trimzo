@@ -222,6 +222,15 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
           >
             {btnText}{" "}
           </button>
+          {/* API CTA */}
+          <div className="text-center mt-2">
+            <Link
+              to="/api"
+              className="text-sm text-teal-700 hover:text-teal-800 font-medium hover:underline transition"
+            >
+              Or use our API instead →
+            </Link>
+          </div>
           {!submitted && (
             <p className="text-xs text-amber-600 text-center">
               First request may take a few seconds while the server wakes up.
@@ -236,11 +245,17 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
               Terms of Service
             </a>
             ,{" "}
-            <a href="/policies#privacy" className="text-teal-600 hover:underline">
+            <a
+              href="/policies#privacy"
+              className="text-teal-600 hover:underline"
+            >
               Privacy Policy
             </a>
             , and{" "}
-            <a href="/policies#cookies" className="text-teal-600 hover:underline">
+            <a
+              href="/policies#cookies"
+              className="text-teal-600 hover:underline"
+            >
               Use of Cookies
             </a>
             .

@@ -1,6 +1,21 @@
 import { urlModel } from "../models/urlModel.js";
 
 export const shortenUrl = async (req, res, { fullUrl, alias }) => {
+  //not-logged in
+  if (!req.user?._id) {
+    const urlFound = await urlModel.findOne({ fullUrl, user: null });
+    if (urlFound) {
+      const link = `/api/shortenUrl/${urlFound._doc.shortId}`;
+      return res.status(201).json({ link, ...urlFound._doc });
+    }
+  } else {
+    const urlFound = await urlModel.findOne({ fullUrl, user: req.user?._id || null });
+    if (urlFound ) {
+      const link = `/api/shortenUrl/${urlFound._doc.shortId}`;
+      return res.status(201).json({ link, ...urlFound._doc });
+    }
+  }
+
   const newUrl = await urlModel.create({
     fullUrl,
     shortId: alias || undefined,
@@ -18,8 +33,7 @@ export const shortenUrl = async (req, res, { fullUrl, alias }) => {
 export const findByAlias = async (alias) => {
   const urlFound = await urlModel.findOne({ shortId: alias });
   if (urlFound) {
-    const link = `http://localhost:5000/api/shortenUrl/${urlFound._doc.shortId}`;
-
+    const link = `/api/shortenUrl/${urlFound._doc.shortId}`;
     return { link, ...urlFound._doc };
   }
   return null;

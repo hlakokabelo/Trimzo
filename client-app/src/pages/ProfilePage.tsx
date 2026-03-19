@@ -53,12 +53,17 @@ export default function ProfilePage() {
     const { data, error } = await updateProfile(userData);
     if (data) updateUser(data);
 
-    if (error) setErrorMessage(error.message);
+    if (error) {
+      setErrorMessage(error.message);
+      resetState(true);
+    }
   };
 
-  const resetState = async () => {
+
+  
+  const resetState = async (errorM: boolean = false) => {
     setEditing(false);
-    setErrorMessage("");
+    if (!errorM) setErrorMessage("");
 
     if (!user) return;
     setName(user.name);
