@@ -42,7 +42,7 @@ The first request may take a few seconds due to cold starts.
 ## 🚀 Run Locally
 
 ```bash
-git clone https://github.com/your-username/trimzo.git
+git clone https://github.com/hlakokabelo/trimzo.git
 cd trimzo
 
 # backend
