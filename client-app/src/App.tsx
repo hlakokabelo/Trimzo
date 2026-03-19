@@ -33,6 +33,11 @@ const App: React.FunctionComponent<IAppProps> = () => {
               <Route path="/sign-up" element={<SignUpPage />} />
             </Route>
 
+            
+              <Route path="/api" element={<>
+               window.location.href = "https://trimzo-api.onrender.com/"
+              </>>} />
+
             {/* Redirect */}
             <Route path="/:shortUrl" element={<RedirectPage />} />
             {/* 404 */}
