@@ -42,6 +42,7 @@ const App: React.FunctionComponent<IAppProps> = () => {
             {/* Redirect */}
             <Route path="/:shortUrl" element={<RedirectPage />} />
             {/* 404 */}
+            <Route path="/404" element={<LinkNotFound />} />
             <Route path="*" element={<LinkNotFound />} />
           </Routes>
         </AuthProvider>
