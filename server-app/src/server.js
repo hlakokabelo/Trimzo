@@ -6,9 +6,11 @@ import connectDB from "./config/dbConfig.js";
 import cookieParser from "cookie-parser";
 import { logger } from "./config/logger.js";
 
+//Routes
 import urlRoutes from "./routes/urlRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import apiDocs from './routes/apiDocs.js'
 
 dotenv.config();
 await connectDB();
@@ -43,6 +45,9 @@ const PORT = process.env.PORT || 5001;
 app.use("/api/users", userRoutes);
 app.use("/api/", urlRoutes);
 app.use("/api/auth/", authRoutes);
+
+
+app.get("/",apiDocs);
 
 //Error handling middleware
 import notFound from "./middleware/notFound.js";

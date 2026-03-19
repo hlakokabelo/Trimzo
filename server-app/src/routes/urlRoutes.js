@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createUrl,
+  createUrlByQuery,
   deleteUrl,
   getMyUrls,
   getUrl,
@@ -16,6 +17,7 @@ router.get("/shortenUrl/:id", getUrl);
 
 /* anyone can shorten */
 router.post("/shortenUrl", optionalAuth, createUrl);
+router.get("/shortenUrl", optionalAuth, createUrlByQuery);
 
 /* logged-in user URLs */
 router.delete("/urls/:id", protectRoute, deleteUrl);

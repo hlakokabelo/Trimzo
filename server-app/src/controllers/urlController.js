@@ -1,5 +1,6 @@
 import { urlModel } from "../models/urlModel.js";
 import { userModel } from "../models/userModel.js";
+import { findByAlias, shortenUrl } from "../services/shortenService.js";
 
 /* CREATE SHORT URL - public route */
 const createUrl = async (req, res) => {
@@ -12,6 +13,12 @@ const createUrl = async (req, res) => {
 
     // check if alias already exists
     if (alias) {
+      if (alias.length < 5) {
+        return res
+          .status(400)
+          .json({ message: "Alias must be at least 5 characteres long" });
+      }
+
       const aliasFound = await urlModel.findOne({ shortId: alias });
 
       if (aliasFound) {
@@ -36,26 +43,41 @@ const createUrl = async (req, res) => {
       }
     }
 
-    const newUrl = await urlModel.create({
-      fullUrl,
-      shortId: alias || undefined,
-      user: req.user?._id || null, // attach user if logged in
-    });
-
-    const link = `http://localhost:5000/api/shortenUrl/${newUrl.shortId}`;
-    const token = req?.token || "none";
-
-    res.status(201).json({
-      ...newUrl._doc,
-      apiLink: link,
-      token,
-    });
+    shortenUrl(req, res, { fullUrl, alias });
   } catch (error) {
-
     res.status(500).json({
       message: "Internal server error",
       error: error.message,
     });
+  }
+};
+
+const createUrlByQuery = async (req, res) => {
+  const longUrl = req.query.link;
+  const alias = req.query.alias;
+
+  if (!longUrl) {
+    return res.status(400).json({ error: "Please provide a link to shorten" });
+  }
+
+  if (alias) {
+    if (alias.length < 5 || alias.length>30) {
+      return res
+        .status(400)
+        .json({ message: "Alias must be of length between 5 & 30 characters" });
+    }
+    const response = await findByAlias(alias);
+
+    if (response) {
+      return res.status(400).json({ error: "Alias already exists" });
+    }
+  }
+
+  try {
+    shortenUrl(req, res, { fullUrl: longUrl, alias });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to shorten URL" });
   }
 };
 
@@ -88,7 +110,7 @@ const saveUrls = async (req, res) => {
       }
     });
 
-    res.status(200).json({urls,user: req.user._id});
+    res.status(200).json({ urls, user: req.user._id });
   } catch (error) {
     res.status(500).json({
       message: "Internal server error",
@@ -193,4 +215,12 @@ const updateUrlAlias = async (req, res) => {
   }
 };
 
-export { createUrl, getMyUrls, updateUrlAlias, getUrl, deleteUrl, saveUrls };
+export {
+  createUrl,
+  getMyUrls,
+  updateUrlAlias,
+  createUrlByQuery,
+  getUrl,
+  deleteUrl,
+  saveUrls,
+};
