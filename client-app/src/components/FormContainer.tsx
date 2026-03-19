@@ -232,15 +232,15 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = ({
           {/* Footer */}
           <p className="text-xs text-gray-500 leading-relaxed">
             By clicking Shorten Link, you agree to our{" "}
-            <a href="#" className="text-teal-600 hover:underline">
+            <a href="/policies#terms" className="text-teal-600 hover:underline">
               Terms of Service
             </a>
             ,{" "}
-            <a href="#" className="text-teal-600 hover:underline">
+            <a href="/policies#privacy" className="text-teal-600 hover:underline">
               Privacy Policy
             </a>
             , and{" "}
-            <a href="#" className="text-teal-600 hover:underline">
+            <a href="/policies#cookies" className="text-teal-600 hover:underline">
               Use of Cookies
             </a>
             .
