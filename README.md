@@ -21,6 +21,7 @@ A full-stack URL shortener with support for **guest usage and account-based stor
 * When not logged in, links are stored in `localStorage`
 * After logging in or signing up, those links are synced to your account
 * Authenticated users have persistent access to their links
+* Developers can interact directly with the Trimzo API using the [`/api/shortenUrl`](https://trimzo-api.onrender.com/) endpoints
 
 ---
 
