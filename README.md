@@ -1,6 +1,6 @@
 # 🔗 Trimzo — URL Shortener
 
-A full-stack URL shortener with support for **guest usage and account-based storage**.
+A full-stack URL shortener with quick link shortening via API or UI
 
 **Live Demo:** [Frontend](https://trimzo.vercel.app/) | [Backend API](https://trimzo-api.onrender.com/)
 
