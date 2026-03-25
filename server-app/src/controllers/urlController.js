@@ -4,6 +4,12 @@ import { findByAlias, shortenUrl } from "../services/shortenService.js";
 import { urlValidation } from "../utils/urlValidation.js";
 import { validateAlias } from "../utils/validateAlias.js";
 
+
+
+const logMsg=(line,repeat,msg)=>{
+  const dash = '--'.repeat(repeat)
+  console.log(dash,line,dash,msg)
+}
 /* CREATE SHORT URL - public route */
 const createUrl = async (req, res) => {
   try {
@@ -22,6 +28,8 @@ const createUrl = async (req, res) => {
     // check if alias already exists
     if (alias) {
       validate = validateAlias(alias);
+    logMsg(41,5,validate)
+
       if (!validate.isValid) {
         return res.status(400).json({ message: validate.error });
       }
@@ -30,23 +38,6 @@ const createUrl = async (req, res) => {
 
       if (aliasFound) {
         return res.status(400).json({ message: "Alias already exists" });
-      }
-    }
-
-    // if user not logged in and fullUrl already has shortened version, return that version
-    if (!req.user) {
-      const urlFound = await urlModel.findOne({ fullUrl });
-
-      if (urlFound) {
-        return res.status(200).json({ ...urlFound._doc });
-      }
-    }
-
-    //if user already shortend url return the shortened one
-    if (req.user) {
-      const urlFound = await urlModel.findOne({ fullUrl, user: req.user._id });
-      if (urlFound) {
-        return res.status(200).json({ ...urlFound._doc });
       }
     }
 
@@ -73,6 +64,7 @@ const createUrlByQuery = async (req, res) => {
     return res.status(400).json({ message: validate.error });
   }
 
+  console.log(alias)
   if (alias) {
     validate = validateAlias(alias);
     if (!validate.isValid) {

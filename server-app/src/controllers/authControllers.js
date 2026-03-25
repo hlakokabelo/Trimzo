@@ -2,9 +2,8 @@ import { userModel } from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { encryptPassword } from "../utils/encryptPassword.js";
-import { validatePassword, validateUsername } from "../utils/validation.js";
 import { validateSignUp } from "../utils/validateSignUp.js";
-
+import { cleanEmail } from "../utils/cleanEmail.js";
 /**
  * signs jwt and sets cookie
  * @param {*} user_id
@@ -52,7 +51,7 @@ const signup = async (req, res) => {
     /*create user
      */
 
-    const name = email.split("@")[0];
+    const name = cleanEmail(email);
     const payload = {
       email,
       name,

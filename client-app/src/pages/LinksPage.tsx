@@ -2,29 +2,29 @@ import * as React from "react";
 import FormContainer from "../components/FormContainer";
 import type { ShortUrlData } from "../types/url.types";
 import { useMyUrls } from "../hooks/useMyUrls";
-import { useAuth } from "../hooks/useAuth"; // assuming this exists
 import UrlListDisplay from "../components/UrlListDisplay";
 import EmptyHistoryNotice from "../components/EmptyHistoryNotice";
+import { useAuthStore } from "../stores/authStore";
 
 const LinksPage: React.FunctionComponent = () => {
-  const { user } = useAuth();
+  const { authUser } = useAuthStore();
 
-  const { data: cloudUrls = [] } = useMyUrls(!!user);
+  const { data: cloudUrls = [] } = useMyUrls(!!authUser);
 
   const [links, setLinks] = React.useState<ShortUrlData[]>([]);
 
   React.useEffect(() => {
-    if (!user) {
+    if (!authUser) {
       const stored = JSON.parse(localStorage.getItem("guestUrls") || "[]");
       setLinks(stored);
     }
-  }, [user]);
+  }, [authUser]);
 
-  const urls = user ? cloudUrls : links;
+  const urls = authUser ? cloudUrls : links;
 
   return (
     <div>
-      <FormContainer setLinks={setLinks} isLoggedIn={!!user} />
+      <FormContainer setLinks={setLinks} isLoggedIn={!!authUser} />
 
       <div className="flex-col w-7/8 m-2 justify-center mt-8">
         <h2 className="text-3xl mb-2 text-slate-950">Your Recent Links:</h2>
@@ -38,4 +38,4 @@ const LinksPage: React.FunctionComponent = () => {
   );
 };
 
-export default LinksPage ;
+export default LinksPage;

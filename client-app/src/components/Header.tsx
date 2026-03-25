@@ -2,10 +2,10 @@ import { FiLink } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { getAppName } from "../utils/getAppName.ts";
-import { useAuth } from "../hooks/useAuth.ts";
+import { useAuthStore } from "../stores/authStore.ts";
 
 const Header = () => {
-  const { user, logout } = useAuth();
+  const { authUser, logout } = useAuthStore();
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
@@ -16,16 +16,15 @@ const Header = () => {
         >
           <FiLink className="w-6 h-6" />
           {getAppName()}
-          
         </Link>
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          {user ? (
+          {authUser ? (
             // Logged-in state
             <>
               <span className="text-sm text-gray-700 hidden sm:inline">
-                Hello, <strong>{user.name}</strong>
+                Hello, {authUser.name}
               </span>
 
               {/* Profile Button / Avatar */}

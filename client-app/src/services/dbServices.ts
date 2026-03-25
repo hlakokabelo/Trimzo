@@ -1,15 +1,14 @@
-import api from "../lib/axios";
+import axiosInstance from "../lib/axios";
 import { ROUTES } from "../config/routes";
 import type { ApiResponse } from "../types/auth.type";
 import type { ShortUrlData } from "../types/url.types";
 import type { User } from "../types/user.types";
 
-// Update Profile - Note: This should probably be in a user service, not here
 export const updateProfile = async (
-  data: Partial<User>,
+  data: User,
 ): Promise<ApiResponse<User>> => {
   try {
-    const res = await api.patch(ROUTES.users.updateMe, data);
+    const res = await axiosInstance.patch(ROUTES.users.updateMe, data);
     return {
       success: true,
       data: res.data,
@@ -37,7 +36,7 @@ export const createShortUrl = async (
       ...(alias && { alias }),
     };
 
-    const response = await api.post(ROUTES.urls.base, payload);
+    const response = await axiosInstance.post(ROUTES.urls.base, payload);
     return {
       success: true,
       data: response.data,
@@ -59,7 +58,7 @@ export const createShortUrl = async (
 // Get user's URLs (protected route)
 export const getMyUrls = async (): Promise<ApiResponse<ShortUrlData[]>> => {
   try {
-    const res = await api.get(ROUTES.urls.myUrls);
+    const res = await axiosInstance.get(ROUTES.urls.myUrls);
     return {
       success: true,
       data: res.data,
@@ -82,7 +81,7 @@ export const saveUrls = async (
   urls: ShortUrlData[],
 ): Promise<ApiResponse<ShortUrlData[]>> => {
   try {
-    const res = await api.patch(ROUTES.urls.saveUrls, { urls });
+    const res = await axiosInstance.patch(ROUTES.urls.saveUrls, { urls });
 
     return {
       success: true,
@@ -106,7 +105,7 @@ export const getUrl = async (
   shortUrl: string,
 ): Promise<ApiResponse<ShortUrlData | null>> => {
   try {
-    const res = await api.get(ROUTES.urls.get(shortUrl));
+    const res = await axiosInstance.get(ROUTES.urls.get(shortUrl));
 
     return {
       success: true,
@@ -140,7 +139,7 @@ export const getUrl = async (
 // Delete URL (protected route)
 export const deleteUrl = async (urlId: string): Promise<ApiResponse> => {
   try {
-    const { data } = await api.delete(ROUTES.urls.delete(urlId));
+    const { data } = await axiosInstance.delete(ROUTES.urls.delete(urlId));
 
     return {
       success: true,
@@ -164,7 +163,7 @@ export const updateUrlAlias = async (
   alias: string,
 ): Promise<ApiResponse<ShortUrlData>> => {
   try {
-    const res = await api.patch(ROUTES.urls.updateAlias, { shortUrl, alias });
+    const res = await axiosInstance.patch(ROUTES.urls.updateAlias, { shortUrl, alias });
 
     return {
       success: true,

@@ -1,7 +1,7 @@
 import { urlModel } from "../models/urlModel.js";
 
 export const shortenUrl = async (req, res, { fullUrl, alias }) => {
-  //not-logged in
+  // if user not logged in and fullUrl already has shortened version, return that version
   if (!req.user?._id) {
     const urlFound = await urlModel.findOne({ fullUrl, user: null });
     if (urlFound) {
@@ -9,8 +9,12 @@ export const shortenUrl = async (req, res, { fullUrl, alias }) => {
       return res.status(201).json({ link, ...urlFound._doc });
     }
   } else {
-    const urlFound = await urlModel.findOne({ fullUrl, user: req.user?._id || null });
-    if (urlFound ) {
+    //if user already shortend url return the shortened one
+    const urlFound = await urlModel.findOne({
+      fullUrl,
+      user: req.user?._id || null,
+    });
+    if (urlFound) {
       const link = `/api/shortenUrl/${urlFound._doc.shortId}`;
       return res.status(201).json({ link, ...urlFound._doc });
     }

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { FiUser, FiMail, FiLock, FiEdit2, FiSave, FiX } from "react-icons/fi";
-import { useAuth } from "../hooks/useAuth";
-import { updateProfile } from "../services/dbServices";
 import {
   validateName,
   validatePassword,
@@ -9,6 +7,8 @@ import {
   type ValidationResult,
 } from "../utils/validation";
 import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../stores/authStore";
+import type { User } from "../types/user.types";
 
 export default function ProfilePage() {
   const [editing, setEditing] = useState(false);
@@ -18,7 +18,7 @@ export default function ProfilePage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, updateUser } = useAuth();
+  const { authUser, updateProfile } = useAuthStore();
 
   const validateProfileData = (): ValidationResult => {
     let validationResult: ValidationResult;
@@ -43,32 +43,31 @@ export default function ProfilePage() {
     setErrorMessage(``);
     setEditing(false);
 
-    const userData = {
+    const userData: User = {
       name,
       username,
       email,
       password,
     };
 
-    const { data, error } = await updateProfile(userData);
-    if (data) updateUser(data);
+    const { error } = await updateProfile(userData);
 
     if (error) {
       setErrorMessage(error.message);
-      resetState(true);
     }
+
+    setPassword("");
+
   };
 
-
-  
-  const resetState = async (errorM: boolean = false) => {
+  const resetState = async (resetErrorM: boolean = false) => {
     setEditing(false);
-    if (!errorM) setErrorMessage("");
+    if (!resetErrorM) setErrorMessage("");
 
-    if (!user) return;
-    setName(user.name);
-    setUsername(user.username);
-    setEmail(user.email);
+    if (!authUser) return;
+    setName(authUser.name);
+    setUsername(authUser.username);
+    setEmail(authUser.email);
     setPassword("");
   };
 
@@ -78,9 +77,9 @@ export default function ProfilePage() {
 
   useEffect(() => {
     resetState();
-  }, []);
+  }, [authUser]);
 
-  if (!user) return <Navigate to={"/"} />;
+  if (!authUser) return <Navigate to={"/"} />;
 
   return (
     <div className="flex justify-center px-2 py-36 sm:py-8">

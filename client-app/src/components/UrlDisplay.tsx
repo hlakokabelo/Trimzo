@@ -2,9 +2,9 @@ import * as React from "react";
 import { MdDelete } from "react-icons/md";
 import CopyButton from "./CopyButton";
 import type { ShortUrlData } from "../types/url.types";
-import { useAuth } from "../hooks/useAuth";
 import { deleteUrl } from "../services/dbServices";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAuthStore } from "../stores/authStore";
 
 interface IUrlDisplayProps {
   urlData: ShortUrlData;
@@ -12,10 +12,10 @@ interface IUrlDisplayProps {
 }
 
 const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({ urlData,className }) => {
-  const { user } = useAuth();
+  const { authUser } = useAuthStore();
   const icon = `https://www.google.com/s2/favicons?domain=${urlData.fullUrl}&sz=32`;
   const shortLink = window.location.origin + "/" + urlData.shortId;
-  const canEdit = user ? true : false;
+  const canEdit = authUser ? true : false;
   const queryClient = useQueryClient();
 
   const handleDelete = async () => {

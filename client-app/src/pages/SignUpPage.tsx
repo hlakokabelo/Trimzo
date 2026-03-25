@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FiUser, FiMail, FiLock, FiUserPlus } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import { useMigrateLocalUrls } from "../hooks/useMigrateLocalUrls";
+import { useAuthStore } from "../stores/authStore";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -10,7 +10,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { signup } = useAuth();
+  const { signup } = useAuthStore();
   const navigate = useNavigate();
 
   const migrateLocalUrls = useMigrateLocalUrls();

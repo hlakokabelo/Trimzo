@@ -22,6 +22,7 @@ export const ROUTES = {
   users: {
     base: `${API_BASE_URL}/users`,
     updateMe: `${API_BASE_URL}/users/me`,
+    getMe: `${API_BASE_URL}/users/me`,
   },
 } as const;
 

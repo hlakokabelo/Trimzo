@@ -1,15 +1,15 @@
 import { useState, type SubmitEvent } from "react";
 import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import { useMigrateLocalUrls } from "../hooks/useMigrateLocalUrls";
+import { useAuthStore } from "../stores/authStore";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { login } = useAuth();
+  const { login } = useAuthStore();
   const navigate = useNavigate();
 
   const migrateLocalUrls = useMigrateLocalUrls();

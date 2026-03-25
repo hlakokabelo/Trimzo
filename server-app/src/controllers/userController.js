@@ -13,7 +13,9 @@ export const updateProfile = async (req, res) => {
     }
 
     if (name && name.length > 30) {
-      return res.status(404).json({ isValid: false, error: "Name cannot exceed 30 characters" })
+      return res
+        .status(404)
+        .json({ isValid: false, error: "Name cannot exceed 30 characters" });
     }
 
     validateSignUp(res, { password, username, email });
@@ -40,7 +42,7 @@ export const updateProfile = async (req, res) => {
     if (name) user.name = name;
 
     if (password && password !== "") {
-      user.password = encryptPassword(password);
+      user.password = await encryptPassword(password);
     }
 
     const updatedUser = await user.save();
@@ -52,13 +54,14 @@ export const updateProfile = async (req, res) => {
       email: updatedUser.email,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
 export const getMe = async (req, res) => {
   try {
-    if (!req.user) return res.status(200).json({ user });
+    if (!req.user) return res.status(404).json({ message:"user not found" });
     const user = await userModel.findById(req.user._id);
     res.status(200).json({ user });
   } catch (error) {
