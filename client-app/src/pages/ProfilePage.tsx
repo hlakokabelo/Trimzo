@@ -57,7 +57,6 @@ export default function ProfilePage() {
     }
 
     setPassword("");
-
   };
 
   const resetState = async (resetErrorM: boolean = false) => {
