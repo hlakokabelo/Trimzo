@@ -2,7 +2,7 @@
 
 A full-stack URL shortener with quick link shortening via API or UI
 
-**Live Demo:** [Frontend](https://trimzo.vercel.app/) | [Backend API](https://trimzo-api.onrender.com/)
+**Live Demo:** [Frontend](https://trimzo.vercel.app/) | [Backend API](https://trimzo-api.onrender.com/api)
 
 ---
 
