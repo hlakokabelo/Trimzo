@@ -1,5 +1,5 @@
 const ApiRedirect = () => {
-  window.location.href = "https://trimzo-api.onrender.com/";
+  window.location.href = "https://trimzo-api.onrender.com/api";
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">

@@ -45,9 +45,7 @@ const PORT = process.env.PORT || 5001;
 app.use("/api/users", userRoutes);
 app.use("/api/", urlRoutes);
 app.use("/api/auth/", authRoutes);
-
-
-app.get("/",apiDocs);
+app.use("/api",apiDocs);
 
 //Error handling middleware
 import notFound from "./middleware/notFound.js";
