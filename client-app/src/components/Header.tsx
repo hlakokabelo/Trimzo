@@ -1,7 +1,7 @@
 import { FiLink } from "react-icons/fi";
 import { FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { getAppName } from "../utils/getAppName.ts";
+import { appName } from "../utils/appName.ts";
 import { useAuthStore } from "../stores/authStore.ts";
 
 const Header = () => {
@@ -15,7 +15,7 @@ const Header = () => {
           className="flex items-center gap-2 text-teal-700 font-extrabold text-xl hover:text-teal-800 transition-colors"
         >
           <FiLink className="w-6 h-6" />
-          {getAppName()}
+          {appName}
         </Link>
 
         {/* Right side */}

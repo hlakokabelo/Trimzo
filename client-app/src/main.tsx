@@ -2,9 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { getAppName } from "./utils/getAppName.ts";
+import { appName } from "./utils/appName.ts";
 
-document.title = getAppName();
+document.title = appName;
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

@@ -1,7 +1,7 @@
 import React from "react";
 import { FiLink, FiCheckCircle, FiShield, FiLock, FiCpu } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { getAppName } from "../utils/getAppName";
+import { appName } from "../utils/appName.ts";
 
 const TrimzoPolicies: React.FC = () => {
   const navigate = useNavigate();
@@ -172,7 +172,7 @@ const TrimzoPolicies: React.FC = () => {
 
             {/* Warning text - matching FormContainer warning style */}
             <p className="text-xs text-amber-600 text-center">
-              By using {getAppName()} (web or API) you agree to these terms.
+              By using {appName} (web or API) you agree to these terms.
             </p>
 
             {/* Footer links - matching FormContainer footer style */}

@@ -1,4 +1,4 @@
-import { getAppName } from "../utils/getAppName";
+import { appName } from "../utils/appName.ts";
 
 const Footer = () => {
   const github="https://github.com/hlakokabelo/url-shortner"
@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between text-sm text-slate-700">
         
         <p>
-          © {new Date().getFullYear()} {getAppName()}
+          © {new Date().getFullYear()} {appName}
         </p>
 
         <p className="text-center">
