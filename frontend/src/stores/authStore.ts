@@ -9,6 +9,7 @@ import { updateProfile } from "../services/dbServices";
 interface IUseAuthStore {
   authUser: User | null;
   isCheckingAuth: boolean;
+  isServerAwake: boolean;
   checkAuth: () => Promise<void>;
   login: (email: string, password: string) => Promise<ApiResponse>;
   signup: (
@@ -23,50 +24,73 @@ interface IUseAuthStore {
 export const useAuthStore = create<IUseAuthStore>((set, get) => ({
   authUser: null,
   isCheckingAuth: false,
+  isServerAwake: false,
 
   updateProfile: async (userData: User) => {
-    const response = await updateProfile(userData);
-    if (response.success) {
-      const { checkAuth } = get();
-      await checkAuth();
+    try {
+      const response = await updateProfile(userData);
+
+      if (response.success) {
+        const { checkAuth } = get();
+        await checkAuth();
+      }
+
+      return response;
+    } finally {
+      set({ isServerAwake: true });
     }
-    return response;
   },
 
   checkAuth: async () => {
     set({ isCheckingAuth: true });
+
     try {
       const { data } = await axiosInstance.post(ROUTES.users.getMe);
       set({ authUser: data.user });
     } catch (error) {
       set({ authUser: null });
     } finally {
-      set({ isCheckingAuth: false });
+      set({
+        isCheckingAuth: false,
+        isServerAwake: true,
+      });
     }
   },
 
   login: async (email, password) => {
-    const result = await log_in({ email, password });
+    try {
+      const result = await log_in({ email, password });
 
-    if (result.success && result.data?.user) {
-      set({ authUser: result.data.user });
+      if (result.success && result.data?.user) {
+        set({ authUser: result.data.user });
+      }
+
+      return result;
+    } finally {
+      set({ isServerAwake: true });
     }
-
-    return result;
   },
 
   signup: async (email, password, username) => {
-    const result = await sign_up({ email, password, username });
+    try {
+      const result = await sign_up({ email, password, username });
 
-    if (result.success && result.data?.user) {
-      set({ authUser: result.data.user });
+      if (result.success && result.data?.user) {
+        set({ authUser: result.data.user });
+      }
+
+      return result;
+    } finally {
+      set({ isServerAwake: true });
     }
-
-    return result;
   },
 
   logout: async () => {
-    await log_out();
-    set({ authUser: null });
+    try {
+      await log_out();
+      set({ authUser: null });
+    } finally {
+      set({ isServerAwake: true });
+    }
   },
 }));
