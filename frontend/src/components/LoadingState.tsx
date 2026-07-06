@@ -6,18 +6,13 @@ export function LoadingState() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="w-full max-w-md text-center">
-        {/* Spinner */}
+        
         <div className="mx-auto h-14 w-14 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
 
         {/* Main message */}
         <h2 className="mt-6 text-xl sm:text-2xl font-semibold text-gray-900">
           Loading...
         </h2>
-
-        {/* Sub message */}
-        <p className="mt-2 text-sm sm:text-base text-gray-600">
-          Preparing everything for you.
-        </p>
 
         {/* Server waking notice */}
         {!isServerAwake && (
@@ -31,7 +26,7 @@ export function LoadingState() {
                 </p>
 
                 <p className="mt-1 text-sm text-amber-800">
-                  This usually takes 30–60 seconds on the first visit.
+                  This usually takes 30–60 seconds. 
                 </p>
               </div>
             </div>
