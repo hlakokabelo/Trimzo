@@ -1,0 +1,26 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+
+    directories:
+      - "/frontend"
+      - "/backend"
+
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+
+    groups:
+      routine-updates:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
