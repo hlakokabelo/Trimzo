@@ -6,7 +6,6 @@ export function LoadingState() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="w-full max-w-md text-center">
-        
         <div className="mx-auto h-14 w-14 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
 
         {/* Main message */}
@@ -26,7 +25,7 @@ export function LoadingState() {
                 </p>
 
                 <p className="mt-1 text-sm text-amber-800">
-                  This usually takes 30–60 seconds. 
+                  This usually takes 30–60 seconds.
                 </p>
               </div>
             </div>

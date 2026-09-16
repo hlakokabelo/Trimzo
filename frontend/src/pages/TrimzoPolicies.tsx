@@ -50,7 +50,8 @@ const TrimzoPolicies: React.FC = () => {
                   last updated: 19 March 2026
                 </p>
                 <p className="font-medium text-teal-700">
-                  ✨ tl;dr: Users are expected to behave respectfully and must not use the service to shorten malicious or harmful links..
+                  ✨ tl;dr: Users are expected to behave respectfully and must
+                  not use the service to shorten malicious or harmful links..
                 </p>
                 <ul className="list-disc pl-4 space-y-2 text-xs">
                   <li>

@@ -8,10 +8,13 @@ import { useAuthStore } from "../stores/authStore";
 
 interface IUrlDisplayProps {
   urlData: ShortUrlData;
-   className?: string;
+  className?: string;
 }
 
-const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({ urlData,className }) => {
+const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({
+  urlData,
+  className,
+}) => {
   const { authUser } = useAuthStore();
   const icon = `https://www.google.com/s2/favicons?domain=${urlData.fullUrl}&sz=32`;
   const shortLink = window.location.origin + "/" + urlData.shortId;
@@ -27,8 +30,9 @@ const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({ urlData,classNa
   };
 
   return (
-    <div className=
-    {`${className || ""} bg-slate-300 w-full border rounded-lg shadow-md p-3 flex flex-row sm:flex-row sm:items-center sm:justify-between gap-3`}>
+    <div
+      className={`${className || ""} bg-slate-300 w-full border rounded-lg shadow-md p-3 flex flex-row sm:flex-row sm:items-center sm:justify-between gap-3`}
+    >
       {/* left section */}
       <div className="flex items-center gap-3 flex-1 w-1 sm:min-w-0">
         <img src={icon} alt="favicon" className="w-6 h-6" />

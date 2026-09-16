@@ -10,7 +10,7 @@ import { logger } from "./config/logger.js";
 import urlRoutes from "./routes/urlRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import apiDocs from './routes/apiDocs.js'
+import apiDocs from "./routes/apiDocs.js";
 
 dotenv.config();
 await connectDB();
@@ -19,7 +19,11 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 
-const allowedOrigins = ["http://localhost:3000", "https://trimzo.vercel.app","https://shot-it.netlify.app"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://trimzo.vercel.app",
+  "https://shot-it.netlify.app",
+];
 
 app.use(
   cors({
@@ -45,7 +49,7 @@ const PORT = process.env.PORT || 5001;
 app.use("/api/users", userRoutes);
 app.use("/api/", urlRoutes);
 app.use("/api/auth/", authRoutes);
-app.use("/api",apiDocs);
+app.use("/api", apiDocs);
 
 //Error handling middleware
 import notFound from "./middleware/notFound.js";

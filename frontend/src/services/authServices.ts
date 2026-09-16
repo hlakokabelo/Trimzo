@@ -1,6 +1,10 @@
 import axiosInstance from "../lib/axios";
 import { ROUTES } from "../config/routes";
-import type { ApiResponse, LoginPayload, SignupPayload } from "../types/auth.type";
+import type {
+  ApiResponse,
+  LoginPayload,
+  SignupPayload,
+} from "../types/auth.type";
 
 export const sign_up = async (data: SignupPayload): Promise<ApiResponse> => {
   try {

@@ -1,5 +1,12 @@
-
-const reserved = ["sign-in", "sign-up", "profile","policies", "admin", "api", "404"];
+const reserved = [
+  "sign-in",
+  "sign-up",
+  "profile",
+  "policies",
+  "admin",
+  "api",
+  "404",
+];
 
 export function validateAlias(alias) {
   const trimmed = alias.trim();

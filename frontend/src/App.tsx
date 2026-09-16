@@ -13,13 +13,13 @@ import AuthLayout from "./layouts/AuthLayout.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TrimzoPolicies from "./pages/TrimzoPolicies.tsx";
 import { useAuthStore } from "./stores/authStore.ts";
-import { LoadingState  } from "./components/LoadingState.tsx";
+import { LoadingState } from "./components/LoadingState.tsx";
 
 interface IAppProps {}
 const queryClient = new QueryClient();
 
 const App: React.FunctionComponent<IAppProps> = () => {
-  const {checkAuth, isCheckingAuth } = useAuthStore();
+  const { checkAuth, isCheckingAuth } = useAuthStore();
   React.useEffect(() => {
     checkAuth();
   }, []);
@@ -28,7 +28,7 @@ const App: React.FunctionComponent<IAppProps> = () => {
       <QueryClientProvider client={queryClient}>
         {isCheckingAuth && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <LoadingState  />
+            <LoadingState />
           </div>
         )}
         <Routes>

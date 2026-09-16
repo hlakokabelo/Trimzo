@@ -61,7 +61,7 @@ export const updateProfile = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    if (!req.user) return res.status(404).json({ message:"user not found" });
+    if (!req.user) return res.status(404).json({ message: "user not found" });
     const user = await userModel.findById(req.user._id);
     res.status(200).json({ user });
   } catch (error) {

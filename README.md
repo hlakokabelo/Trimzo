@@ -8,20 +8,20 @@ A full-stack URL shortener with quick link shortening via API or UI
 
 ## ✨ Features
 
-* 🔗 Shorten long URLs
-* ✏️ Optional custom aliases
-* 👤 Guest users can create links (stored locally)
-* 🔄 Links are saved to your account after login/signup
-* 🔐 JWT-based authentication
+- 🔗 Shorten long URLs
+- ✏️ Optional custom aliases
+- 👤 Guest users can create links (stored locally)
+- 🔄 Links are saved to your account after login/signup
+- 🔐 JWT-based authentication
 
 ---
 
 ## 🧠 How it works
 
-* When not logged in, links are stored in `localStorage`
-* After logging in or signing up, those links are synced to your account
-* Authenticated users have persistent access to their links
-* Developers can interact directly with the Trimzo API using the [`/api/shortenUrl`](https://trimzo-api.onrender.com/) endpoints
+- When not logged in, links are stored in `localStorage`
+- After logging in or signing up, those links are synced to your account
+- Authenticated users have persistent access to their links
+- Developers can interact directly with the Trimzo API using the [`/api/shortenUrl`](https://trimzo-api.onrender.com/) endpoints
 
 ---
 

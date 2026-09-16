@@ -1,37 +1,30 @@
 import { Link } from "react-router-dom";
 import { AlertTriangle, Search, Link2 } from "lucide-react";
-import { useSearchParams } from 'react-router-dom';
-
+import { useSearchParams } from "react-router-dom";
 
 export default function LinkNotFound() {
-
   const [searchParams] = useSearchParams();
-  const url = searchParams.get('url');
+  const url = searchParams.get("url");
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-6 text-center">
-
       {/* Icon */}
       <AlertTriangle className="w-16 h-16 text-red-600 mb-6" />
 
       {/* Title */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-2">
-        404 Not Found
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-2">404 Not Found</h1>
 
       {/* Message */}
       <p className="text-gray-600 mb-10 max-w-md">
         This short link{" "}
-         <code className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-sm font-medium text-zinc-900 dark:bg-zinc-800 dark:text-zinc-200">
-        {url}
-      </code>{" "}
-         does not exist. It may have been removed, expired,
-        or typed incorrectly.
+        <code className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-sm font-medium text-zinc-900 dark:bg-zinc-800 dark:text-zinc-200">
+          {url}
+        </code>{" "}
+        does not exist. It may have been removed, expired, or typed incorrectly.
       </p>
 
       {/* Options */}
       <div className="flex flex-col md:flex-row gap-8">
-
         <div className="flex items-start gap-3 text-left">
           <Search className="text-blue-500 w-6 h-6 mt-1" />
           <div>
@@ -53,7 +46,6 @@ export default function LinkNotFound() {
             </p>
           </div>
         </div>
-
       </div>
 
       {/* Back button */}

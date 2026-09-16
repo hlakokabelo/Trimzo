@@ -4,12 +4,10 @@ import { findByAlias, shortenUrl } from "../services/shortenService.js";
 import { urlValidation } from "../utils/urlValidation.js";
 import { validateAlias } from "../utils/validateAlias.js";
 
-
-
-const logMsg=(line,repeat,msg)=>{
-  const dash = '--'.repeat(repeat)
-  console.log(dash,line,dash,msg)
-}
+const logMsg = (line, repeat, msg) => {
+  const dash = "--".repeat(repeat);
+  console.log(dash, line, dash, msg);
+};
 /* CREATE SHORT URL - public route */
 const createUrl = async (req, res) => {
   try {
@@ -28,7 +26,7 @@ const createUrl = async (req, res) => {
     // check if alias already exists
     if (alias) {
       validate = validateAlias(alias);
-    logMsg(41,5,validate)
+      logMsg(41, 5, validate);
 
       if (!validate.isValid) {
         return res.status(400).json({ message: validate.error });
@@ -64,7 +62,7 @@ const createUrlByQuery = async (req, res) => {
     return res.status(400).json({ message: validate.error });
   }
 
-  console.log(alias)
+  console.log(alias);
   if (alias) {
     validate = validateAlias(alias);
     if (!validate.isValid) {

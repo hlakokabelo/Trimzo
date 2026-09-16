@@ -65,7 +65,7 @@ const urlValidation = (urlString: string): IUrlValidationResult => {
       };
     }
 
-    return { isValid: true, url: parsedUrl+"" };
+    return { isValid: true, url: parsedUrl + "" };
   } catch {
     return {
       isValid: false,

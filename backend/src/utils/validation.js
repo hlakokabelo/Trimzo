@@ -1,5 +1,5 @@
 // Password validation
-export const validatePassword = (password) =>{
+export const validatePassword = (password) => {
   if (password === "") {
     return {
       field: "password",
@@ -82,7 +82,7 @@ export const validateUsername = (username) => {
 };
 
 // Name validation
-export const validateName = (name)=> {
+export const validateName = (name) => {
   // Name is optional, so empty is valid
   if (!name || !name.trim()) {
     return {

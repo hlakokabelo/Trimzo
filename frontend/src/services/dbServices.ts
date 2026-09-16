@@ -4,9 +4,7 @@ import type { ApiResponse } from "../types/auth.type";
 import type { ShortUrlData } from "../types/url.types";
 import type { User } from "../types/user.types";
 
-export const updateProfile = async (
-  data: User,
-): Promise<ApiResponse<User>> => {
+export const updateProfile = async (data: User): Promise<ApiResponse<User>> => {
   try {
     const res = await axiosInstance.patch(ROUTES.users.updateMe, data);
     return {
@@ -163,7 +161,10 @@ export const updateUrlAlias = async (
   alias: string,
 ): Promise<ApiResponse<ShortUrlData>> => {
   try {
-    const res = await axiosInstance.patch(ROUTES.urls.updateAlias, { shortUrl, alias });
+    const res = await axiosInstance.patch(ROUTES.urls.updateAlias, {
+      shortUrl,
+      alias,
+    });
 
     return {
       success: true,

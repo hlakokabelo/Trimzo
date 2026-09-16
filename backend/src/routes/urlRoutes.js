@@ -26,4 +26,3 @@ router.patch("/urls/saveUrls", protectRoute, saveUrls);
 router.patch("/urls/alias", protectRoute, updateUrlAlias);
 
 export default router;
-

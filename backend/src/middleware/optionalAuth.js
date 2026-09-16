@@ -3,7 +3,6 @@ import { userModel } from "../models/userModel.js";
 
 export const optionalAuth = async (req, res, next) => {
   try {
-
     const token = req.cookies.jwt;
     if (!token) {
       return next();

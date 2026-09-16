@@ -16,14 +16,16 @@ router.get("/", (req, res) => {
         },
         description:
           "Shorten a URL. Returns JSON with the shortened link and metadata.",
-        example: "/api/shortenUrl?link=https://alicenter.org/meet-ali/in-his-own-words/&alias="+Math.random().toString(36).substring(2, 8),
+        example:
+          "/api/shortenUrl?link=https://alicenter.org/meet-ali/in-his-own-words/&alias=" +
+          Math.random().toString(36).substring(2, 8),
       },
       getUrl: {
         method: "GET",
         url: "/api/shortenUrl/:shortId",
         description:
           "Retrieve shortened URL info by its alias or auto-generated ID.",
-          example: "/api/shortenUrl/6797t5",
+        example: "/api/shortenUrl/6797t5",
       },
       frontend: {
         url: "https://trimzo.vercel.app/",
