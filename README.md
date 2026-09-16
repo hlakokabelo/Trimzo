@@ -28,7 +28,7 @@ A full-stack URL shortener with quick link shortening via API or UI
 ## 🛠️ Tech Stack
 
 **Frontend**: React + TypeScript, TailwindCSS, TanStack Query
-**Backend**: Node.js + Express, JWT Authentication, Supabase
+**Backend**: Node.js + Express, JWT Authentication, Mongoose
 
 ---
 
