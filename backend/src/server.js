@@ -19,7 +19,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 
-const allowedOrigins = ["http://localhost:3000", "https://trimzo.vercel.app"];
+const allowedOrigins = ["http://localhost:3000", "https://trimzo.vercel.app","https://shot-it.netlify.app"];
 
 app.use(
   cors({
