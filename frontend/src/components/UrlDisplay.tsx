@@ -17,7 +17,7 @@ const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({
 }) => {
   const { authUser } = useAuthStore();
   const icon = `https://www.google.com/s2/favicons?domain=${urlData.fullUrl}&sz=32`;
-  const shortLink = window.location.origin + "/" + urlData.shortId;
+  const shortLink = (window.location.origin + "/" + urlData.shortId).replace("https://","");
   const canEdit = authUser ? true : false;
   const queryClient = useQueryClient();
 
