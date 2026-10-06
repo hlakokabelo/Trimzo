@@ -21,6 +21,7 @@ const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({
   const canEdit = !!authUser;
   const icon = `https://www.google.com/s2/favicons?domain=${urlData.fullUrl}&sz=32`;
   const shortLink = `${window.location.origin}/${urlData.shortId}`;
+  const displayLink = shortLink.replace("https://", "");
 
   const handleDelete = async () => {
     const { success } = await deleteUrl(urlData._id);
@@ -44,7 +45,7 @@ const UrlDisplay: React.FunctionComponent<IUrlDisplayProps> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            {shortLink.replace("https://", "")}
+            {displayLink.charAt(0).toUpperCase() + displayLink.slice(1)}
           </a>
 
           <p className="truncate text-pink-700 text-sm">{urlData.fullUrl}</p>
