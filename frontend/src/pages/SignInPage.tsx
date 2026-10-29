@@ -3,11 +3,13 @@ import { FiLogIn, FiLock, FiUser } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useMigrateLocalUrls } from "../hooks/useMigrateLocalUrls";
 import { useAuthStore } from "../stores/authStore";
+import CookieError from "../components/CookieError";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showCookieError, setShowCookieError] = useState<boolean>(false);
 
   const { login, checkCookie } = useAuthStore();
   const navigate = useNavigate();
@@ -33,15 +35,12 @@ export default function SignInPage() {
     const cookieWorks = await checkCookie();
 
     if (!cookieWorks) {
-      setErrorMessage(
-        "Login succeeded, but your session could not be verified. " +
-          "Your browser may be blocking cookies. Please check your cookie settings and try again.",
-      );
+      setShowCookieError(true);
       return;
     }
 
     await handleLoginSuccess();
-    //("/");
+    navigate("/");
   };
 
   return (
@@ -107,6 +106,9 @@ export default function SignInPage() {
             </Link>
           </p>
           <p className="text-sm text-red-700 text-center">{errorMessage}</p>
+          {showCookieError && (
+            <CookieError onClose={() => setShowCookieError(false)} />
+          )}
         </form>
       </div>
     </div>

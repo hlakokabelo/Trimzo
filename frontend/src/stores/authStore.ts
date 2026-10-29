@@ -68,13 +68,10 @@ export const useAuthStore = create<IUseAuthStore>((set, get) => ({
       return false;
     }
   },
+
   login: async (email, password) => {
     try {
       const result = await log_in({ email, password });
-
-      if (result.success && result.data?.user) {
-        set({ authUser: result.data.user });
-      }
 
       return result;
     } finally {
@@ -85,10 +82,6 @@ export const useAuthStore = create<IUseAuthStore>((set, get) => ({
   signup: async (email, password, username) => {
     try {
       const result = await sign_up({ email, password, username });
-
-      if (result.success && result.data?.user) {
-        set({ authUser: result.data.user });
-      }
 
       return result;
     } finally {

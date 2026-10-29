@@ -3,14 +3,16 @@ import { FiUser, FiMail, FiLock, FiUserPlus } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useMigrateLocalUrls } from "../hooks/useMigrateLocalUrls";
 import { useAuthStore } from "../stores/authStore";
+import CookieError from "../components/CookieError";
 
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showCookieError, setShowCookieError] = useState<boolean>(false);
 
-  const { signup } = useAuthStore();
+  const { signup, checkCookie } = useAuthStore();
   const navigate = useNavigate();
 
   const migrateLocalUrls = useMigrateLocalUrls();
@@ -22,12 +24,18 @@ export default function SignUpPage() {
   const handleSignUp = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await signup(email, password, username);
-    if (result.success) {
-      await handleSignUpSuccess();
-      return navigate("/");
+    if (!result.success) {
+      setErrorMessage(result.error?.message ?? "Unknown error");
     }
 
-    setErrorMessage(result.error?.message ?? "Unknown error");
+    const cookieWorks = await checkCookie();
+
+    if (!cookieWorks) {
+      setShowCookieError(true);
+      return;
+    }
+    await handleSignUpSuccess();
+    return navigate("/");
   };
 
   return (
@@ -109,6 +117,9 @@ export default function SignUpPage() {
             </Link>
           </p>
           <p className="text-sm text-red-700 text-center">{errorMessage}</p>
+          {showCookieError && (
+            <CookieError onClose={() => setShowCookieError(false)} />
+          )}
         </form>
       </div>
     </div>
