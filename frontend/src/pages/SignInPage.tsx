@@ -9,7 +9,7 @@ export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { login } = useAuthStore();
+  const { login, checkCookie } = useAuthStore();
   const navigate = useNavigate();
 
   const migrateLocalUrls = useMigrateLocalUrls();
@@ -17,17 +17,31 @@ export default function SignInPage() {
   const handleLoginSuccess = async () => {
     await migrateLocalUrls();
   };
+
   const onSubmitSignIn = async (
     e: SubmitEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
+
     const result = await login(email, password);
-    if (result.success) {
-      await handleLoginSuccess();
-      return navigate("/");
+
+    if (!result.success) {
+      setErrorMessage(result.error?.message ?? "Unknown error");
+      return;
     }
 
-    setErrorMessage(result.error?.message ?? "Unknown error");
+    const cookieWorks = await checkCookie();
+
+    if (!cookieWorks) {
+      setErrorMessage(
+        "Login succeeded, but your session could not be verified. " +
+          "Your browser may be blocking cookies. Please check your cookie settings and try again.",
+      );
+      return;
+    }
+
+    await handleLoginSuccess();
+    //("/");
   };
 
   return (

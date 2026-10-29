@@ -18,6 +18,7 @@ interface IUseAuthStore {
     username: string,
   ) => Promise<ApiResponse>;
   logout: () => Promise<void>;
+  checkCookie: () => Promise<boolean>;
   updateProfile: (userData: User) => Promise<ApiResponse<User>>;
 }
 
@@ -57,6 +58,16 @@ export const useAuthStore = create<IUseAuthStore>((set, get) => ({
     }
   },
 
+  checkCookie: async () => {
+    try {
+      const { data } = await axiosInstance.post(ROUTES.users.getMe);
+      set({ authUser: data.user });
+      return true;
+    } catch {
+      set({ authUser: null });
+      return false;
+    }
+  },
   login: async (email, password) => {
     try {
       const result = await log_in({ email, password });

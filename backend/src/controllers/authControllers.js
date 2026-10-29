@@ -17,6 +17,7 @@ const setCookie = (user_id, res) => {
   res.cookie("jwt", token, {
     maxAge: 7 * 24 * 60 * 60 * 1000,
     httpOnly: true,
+    path: "/",
     sameSite: "none", // important for cross-site cookies
     secure: true, // must be true when sameSite is none
   });

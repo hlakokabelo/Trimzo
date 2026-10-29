@@ -61,10 +61,18 @@ export const updateProfile = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    if (!req.user) return res.status(404).json({ message: "user not found" });
-    const user = await userModel.findById(req.user._id);
-    res.status(200).json({ user });
+    const user = await userModel.findById(req.user._id).select("-password");
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Not authenticated",
+      });
+    }
+
+    res.status(200).json({ success: true, user });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
   }
 };
