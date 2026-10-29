@@ -97,7 +97,7 @@ export default function SignUpPage() {
           {/* Button */}
           <input
             type="submit"
-            className="w-full bg-teal-700 hover:bg-teal-800 active:scale-[0.98] text-white font-semibold py-3.5 rounded-lg text-sm transition-all duration-150"
+            className="w-full cursor-pointer bg-teal-700 hover:bg-teal-800 active:scale-[0.98] text-white font-semibold py-3.5 rounded-lg text-sm transition-all duration-150"
             value="Create Account"
           />
 

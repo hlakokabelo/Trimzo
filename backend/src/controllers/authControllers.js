@@ -78,17 +78,19 @@ const login = async (req, res) => {
     if (!email || !password)
       return res.status(400).json({ message: "All fields are required" });
 
-    const user = await userModel.findOne({ email });
-    if (!user)
-      return res.status(404).json({ message: "Invalid email or password" });
+    const identifier = email.trim();
 
-    //verify password
+    const user = await userModel.findOne({
+      $or: [{ email: identifier }, { username: identifier.toLowerCase() }],
+    });
+
+    if (!user)
+      return res.status(401).json({ message: "Invalid email or password" });
+
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect)
-      return res.status(404).json({ message: "Invalid email or password" });
-
-    // removing hashed password from user we returning
+      return res.status(401).json({ message: "Invalid email or password" });
 
     const { password: _, ...user_ } = user._doc;
 
@@ -96,7 +98,7 @@ const login = async (req, res) => {
 
     res.status(200).json({ success: true, user: user_ });
   } catch (error) {
-    res.status(500).json({ message: "Interal Server error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
