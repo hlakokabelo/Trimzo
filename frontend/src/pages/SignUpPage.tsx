@@ -10,6 +10,7 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isSigninUp, setIsSigninUp] = useState(false);
   const [showCookieError, setShowCookieError] = useState<boolean>(false);
 
   const { signup, checkCookie } = useAuthStore();
@@ -23,6 +24,7 @@ export default function SignUpPage() {
 
   const handleSignUp = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSigninUp(true);
     const result = await signup(email, password, username);
     if (!result.success) {
       setErrorMessage(result.error?.message ?? "Unknown error");
@@ -30,6 +32,7 @@ export default function SignUpPage() {
 
     const cookieWorks = await checkCookie();
 
+    setIsSigninUp(false);
     if (!cookieWorks) {
       setShowCookieError(true);
       return;
@@ -105,8 +108,10 @@ export default function SignUpPage() {
           {/* Button */}
           <input
             type="submit"
-            className="w-full cursor-pointer bg-teal-700 hover:bg-teal-800 active:scale-[0.98] text-white font-semibold py-3.5 rounded-lg text-sm transition-all duration-150"
-            value="Create Account"
+            disabled={isSigninUp}
+            className={`w-full cursor-pointer bg-teal-700 ${!isSigninUp && "hover:bg-teal-800"} active:scale-[0.98] text-white font-semibold py-3.5 rounded-lg text-sm transition-all duration-150
+            `}
+            value={isSigninUp ? "Creating Account..." : "Create Account"}
           />
 
           {/* Footer */}

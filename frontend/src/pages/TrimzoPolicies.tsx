@@ -19,9 +19,7 @@ const TrimzoPolicies: React.FC = () => {
             </div>
           </div>
 
-          {/* Content Area - matching FormContainer p-6 spacing */}
           <div id="terms" className="p-6 space-y-5 bg-white">
-            {/* API Badge - matching domain display style */}
             <div className="space-y-1">
               <label className="flex items-center gap-1.5 text-sm font-semibold text-gray-700">
                 <FiCpu className="w-4 h-4" />

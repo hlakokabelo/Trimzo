@@ -10,6 +10,7 @@ export default function SignInPage() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showCookieError, setShowCookieError] = useState<boolean>(false);
+  const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
 
   const { login, checkCookie } = useAuthStore();
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function SignInPage() {
     e: SubmitEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
-
+    setIsSigningIn(true);
     const result = await login(email, password);
 
     if (!result.success) {
@@ -38,7 +39,7 @@ export default function SignInPage() {
       setShowCookieError(true);
       return;
     }
-
+    setIsSigningIn(false);
     await handleLoginSuccess();
     navigate("/");
   };
@@ -94,8 +95,9 @@ export default function SignInPage() {
           {/* Submit */}
           <input
             type="submit"
-            className="w-full cursor-pointer bg-teal-700 hover:bg-teal-800 active:scale-[0.98] text-white font-semibold py-3.5 rounded-lg text-sm transition-all duration-150"
-            value={"Sign In"}
+            disabled={isSigningIn}
+            className={`w-full cursor-pointer bg-teal-700 ${!isSigningIn && "hover:bg-teal-800"} active:scale-[0.98] text-white font-semibold py-3.5 rounded-lg text-sm transition-all duration-150`}
+            value={isSigningIn ? "Signing in..." : "Sign In"}
           />
 
           {/* Footer */}
