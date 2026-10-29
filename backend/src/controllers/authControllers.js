@@ -79,18 +79,23 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
 
     const identifier = email.trim();
+    const isMail = identifier.includes("@");
 
-    const user = await userModel.findOne({
-      $or: [{ email: identifier }, { username: identifier.toLowerCase() }],
-    });
+    const user = await userModel.findOne(
+      isMail ? { email: identifier } : { username: identifier.toLowerCase() },
+    );
 
     if (!user)
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({
+        message: `Invalid ${isMail ? "email" : "username"} or password`,
+      });
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect)
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({
+        message: `Invalid ${isMail ? "email" : "username"} or password`,
+      });
 
     const { password: _, ...user_ } = user._doc;
 
