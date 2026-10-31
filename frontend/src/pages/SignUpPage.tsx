@@ -42,7 +42,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen px-2">
+    <div className="flex justify-center items-center min-h-[90vh] px-2">
       <div className="bg-slate-300 rounded-2xl shadow-lg shadow-slate-600 hover:shadow-xl overflow-hidden w-full max-w-md">
         {/* Header */}
         <div className="flex">
