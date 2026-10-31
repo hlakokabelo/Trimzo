@@ -26,7 +26,7 @@ export const shortenUrl = async (req, res, { fullUrl, alias }) => {
     user: req.user?._id || null, // attach user if logged in
   });
 
-  const link = `http://localhost:5000/api/shortenUrl/${newUrl.shortId}`;
+  const link = `/api/shortenUrl/${newUrl.shortId}`;
 
   res.status(201).json({
     apiLink: link,
