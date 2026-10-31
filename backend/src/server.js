@@ -21,6 +21,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:3000",
+  "http://localhost:5173",
   "https://trimzo.vercel.app",
   "https://shot-it.netlify.app",
 ];
