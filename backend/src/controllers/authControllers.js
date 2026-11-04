@@ -108,9 +108,19 @@ const login = async (req, res) => {
   }
 };
 
-const logout = (req, res) => {
-  res.clearCookie("jwt");
-  res.status(200).json({ success: true, message: "Logout success" });
-};
+//logout endpoint clears the cookie using the same cookie options:
 
+const logout = (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    path: "/",
+    sameSite: "none",
+    secure: true,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Logout successful",
+  });
+};
 export { login, logout, signup };

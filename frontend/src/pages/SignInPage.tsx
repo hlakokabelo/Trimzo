@@ -36,6 +36,7 @@ export default function SignInPage() {
     const cookieWorks = await checkCookie();
 
     if (!cookieWorks) {
+      setIsSigningIn(false);
       setShowCookieError(true);
       return;
     }
