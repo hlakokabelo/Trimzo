@@ -28,6 +28,7 @@ export default function SignUpPage() {
     const result = await signup(email, password, username);
     if (!result.success) {
       setErrorMessage(result.error?.message ?? "Unknown error");
+      return;
     }
 
     const cookieWorks = await checkCookie();
